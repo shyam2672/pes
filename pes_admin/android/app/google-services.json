@@ -1,0 +1,39 @@
+{
+    "project_info": {
+      "project_number": "590204677401",
+      "project_id": "pehchaan-2257e",
+      "storage_bucket": "pehchaan-2257e.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:590204677401:android:faa43e49de88608a6ce988",
+          "android_client_info": {
+            "package_name": "com.example.pes_admin"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "590204677401-s9e20lrvcgl8q167t9cif81af4e4e80n.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyAvojbFq9NppLSGus40Jt6IMtfcMxSL4EE"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "590204677401-s9e20lrvcgl8q167t9cif81af4e4e80n.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

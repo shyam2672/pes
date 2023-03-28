@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "pes_admin",
+            "cwd": "pes_admin",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "pes_admin (profile mode)",
+            "cwd": "pes_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "pes_admin (release mode)",
+            "cwd": "pes_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "pes_volunteer",
+            "cwd": "pes_volunteer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "pes_volunteer (profile mode)",
+            "cwd": "pes_volunteer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "pes_volunteer (release mode)",
+            "cwd": "pes_volunteer",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
