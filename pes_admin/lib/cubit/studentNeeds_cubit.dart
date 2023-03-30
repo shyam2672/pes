@@ -29,13 +29,13 @@ class StudentNeedsCubit extends Cubit<StudentNeedsState> {
     }
   }
 
-  void addStudentNeeds(token,name, title, data) {
+  void addStudentNeeds(token, name, title, data) {
     emit(StudentNeedsLoading());
     mainRepo.hasNetwork().then((Bool) {
       if (!Bool)
         emit(StudentNeedsError(error: 'No internet'));
       else {
-        mainRepo.addStudentNeeds(token,name, title, data).then((resp) {
+        mainRepo.addStudentNeeds(token, name, title, data).then((resp) {
           if (resp == "Sent") {
             emit(StudentNeedsAdded());
           } else
@@ -46,13 +46,16 @@ class StudentNeedsCubit extends Cubit<StudentNeedsState> {
   }
 
   void delStudentNeeds(token, id) {
+    print("ff");
     emit(StudentNeedsLoading());
     mainRepo.hasNetwork().then((Bool) {
       if (!Bool)
         emit(StudentNeedsError(error: 'No internet'));
       else {
         mainRepo.delStudentNeeds(token, id).then((resp) {
-          if (resp == "Sent") {
+          print(resp);
+          if (resp == "Deleted") {
+            print("fffff");
             emit(StudentNeedsDeleted());
           } else
             emit(StudentNeedsNotDeleted());

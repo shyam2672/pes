@@ -334,8 +334,38 @@ class MainRepository {
     }
   }
 
+  Future<String> NeedsDeleteApplication(token, need_ids) async {
+    print("Slot Delete Application");
+    try {
+      final response = await http.post(
+        Uri.parse(baseUrl + "admin/needs/delete/"),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "need_ids": need_ids,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2))
+        return "NeedsDeleted";
+      else
+        return "Failed to Send Needs Delete Request";
+    } catch (e) {
+      print(e);
+      return e.toString();
+    }
+  }
+
   Future<String> delStudentNeeds(token, id) async {
     print("Student Needs");
+    print(token);
+    print(id);
+
     try {
       String url = baseUrl + "admin/student_needs/del";
       final response = await http.post(
@@ -362,7 +392,7 @@ class MainRepository {
     }
   }
 
-  Future<String> addStudentNeeds(token,name, pathshaala, data) async {
+  Future<String> addStudentNeeds(token, name, pathshaala, data) async {
     try {
       String url = baseUrl + "admin/student_needs/add/";
       final response = await http.post(

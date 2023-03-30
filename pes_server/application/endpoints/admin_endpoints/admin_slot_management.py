@@ -88,6 +88,7 @@ def admin_slot_delete(adminId):
         return make_response(jsonify(responseObject)), 401 
 
 
+
 @admin_auth
 def all_slots(adminId):
     slots = current_app.config['db'].all_slots()

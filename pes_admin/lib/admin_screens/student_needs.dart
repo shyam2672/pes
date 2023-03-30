@@ -12,16 +12,16 @@ class StudentNeedsScreen extends StatefulWidget {
   State<StudentNeedsScreen> createState() => _StudentNeedsScreenState();
 }
 
+StudentNeedsCubit? studentNeedsCubit;
+User user = User.empty(token: "");
+
 class _StudentNeedsScreenState extends State<StudentNeedsScreen> {
-  User user = User.empty(token: "");
   TextEditingController _title = TextEditingController();
   TextEditingController _description = TextEditingController();
 
   RefreshController _pageRefreshController =
           RefreshController(initialRefresh: false),
       _listRefreshController = RefreshController(initialRefresh: false);
-
-  StudentNeedsCubit? studentNeedsCubit;
 
   Widget _attendanceDialog(context) {
     return Container(
@@ -75,7 +75,7 @@ class _StudentNeedsScreenState extends State<StudentNeedsScreen> {
                 child: InkWell(
                   onTap: () {
                     studentNeedsCubit!.addStudentNeeds(
-                        user.token,user.name, _title.text, _description.text);
+                        user.token, user.name, _title.text, _description.text);
                     Navigator.pop(context);
                     // setState(() {
                     //   studentNeedsCubit!.studentNeeds = [];
@@ -232,6 +232,7 @@ class _StudentNeedsScreenState extends State<StudentNeedsScreen> {
         child: BlocBuilder<StudentNeedsCubit, StudentNeedsState>(
           builder: (context, state) {
             if (state is StudentNeedsLoaded) {
+              // print("state loded");
               return Container(
                 color: appBarColor,
                 child: Container(
@@ -314,6 +315,18 @@ class _StudentNeedsScreenState extends State<StudentNeedsScreen> {
               );
             } else if (state is StudentNeedsError) {
               return Center(child: Text(state.error));
+            }
+            if (state is StudentNeedsDeleted) {
+              // Navigator.pop(context);
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: msgBox("Student Needs deleted"),
+              );
+              setState(() => studentNeedsCubit!.studentNeeds = []);
             } else {
               return Center(child: CircularProgressIndicator());
             }
@@ -324,11 +337,16 @@ class _StudentNeedsScreenState extends State<StudentNeedsScreen> {
   }
 }
 
-class StudentNeedsTile extends StatelessWidget {
+class StudentNeedsTile extends StatefulWidget {
   AppStudentNeeds appStudentNeeds;
-
+  // StudentNeedsCubit? studentNeedsCubit;
   StudentNeedsTile({Key? key, required this.appStudentNeeds}) : super(key: key);
 
+  @override
+  State<StudentNeedsTile> createState() => _StudentNeedsTileState();
+}
+
+class _StudentNeedsTileState extends State<StudentNeedsTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -338,8 +356,9 @@ class StudentNeedsTile extends StatelessWidget {
           context,
           NEEDS_DETAILS,
           arguments: {
-            "studentNeedsObj": appStudentNeeds,
-            "timeRecieved": _studentNeedsInterval(appStudentNeeds.post_time)
+            "studentNeedsObj": widget.appStudentNeeds,
+            "timeRecieved":
+                _studentNeedsInterval(widget.appStudentNeeds.post_time)
           },
         );
       },
@@ -366,7 +385,7 @@ class StudentNeedsTile extends StatelessWidget {
                 // border: Border.all(color: Colors.black),
                 // borderRadius: BorderRadius.all(Radius.circular((5)))
               ),
-              height: 100,
+              height: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,10 +401,11 @@ class StudentNeedsTile extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              appStudentNeeds.data.length > 30
-                                  ? appStudentNeeds.data.substring(0, 30) +
+                              widget.appStudentNeeds.data.length > 30
+                                  ? widget.appStudentNeeds.data
+                                          .substring(0, 30) +
                                       '...'
-                                  : appStudentNeeds.data,
+                                  : widget.appStudentNeeds.data,
                               maxLines: 1,
                               style: TextStyle(
                                   color: Colors.white,
@@ -396,6 +416,17 @@ class StudentNeedsTile extends StatelessWidget {
                                   fontSize: 23,
                                   overflow: TextOverflow.ellipsis),
                             ),
+                            Expanded(
+                              child: IconButton(
+                                  onPressed: () {
+                                    studentNeedsCubit!.delStudentNeeds(
+                                        user.token, widget.appStudentNeeds.id);
+                                    // setState(() {
+                                    // });
+                                  },
+                                  color: Colors.greenAccent,
+                                  icon: Icon(Icons.delete)),
+                            ),
                           ],
                         ),
                         Container(
@@ -405,7 +436,7 @@ class StudentNeedsTile extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Pathshaala " + appStudentNeeds.pathshaala,
+                              "Pathshaala " + widget.appStudentNeeds.pathshaala,
                               style: TextStyle(
                                   color: Colors.grey,
                                   // color: appStudentNeeds.read
@@ -416,7 +447,7 @@ class StudentNeedsTile extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis),
                             ),
                             Text(
-                              "PES ID: " + appStudentNeeds.pesId,
+                              "PES ID: " + widget.appStudentNeeds.pesId,
                               style: TextStyle(
                                   color: Colors.grey,
                                   // color: appStudentNeeds.read
@@ -426,8 +457,8 @@ class StudentNeedsTile extends StatelessWidget {
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis),
                             ),
-                             Text(
-                              "NAME: " + appStudentNeeds.Name,
+                            Text(
+                              "NAME: " + widget.appStudentNeeds.Name,
                               style: TextStyle(
                                   color: Colors.grey,
                                   // color: appStudentNeeds.read
@@ -443,7 +474,8 @@ class StudentNeedsTile extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          _studentNeedsInterval(appStudentNeeds.post_time),
+                          _studentNeedsInterval(
+                              widget.appStudentNeeds.post_time),
                           style: TextStyle(
                             color: Colors.grey,
                             // color: widget.appStudentNeeds.read
