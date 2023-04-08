@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:expandable/expandable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +17,21 @@ import 'package:pes/volunteer_screen/widgets/sidemenu.dart';
 import 'package:pes/volunteer_screen/widgets/slot_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+
+
+
+User user = User.empty(token: "");
+  SlotsCubit? slotsCubit;
+
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+  
+
 class _HomeScreenState extends State<HomeScreen> {
   late LoggedIn currentstate;
-  User user = User.empty(token: "");
   RefreshController _pageRefreshController =
           RefreshController(initialRefresh: false),
       _listRefreshController = RefreshController(initialRefresh: false);
@@ -115,7 +121,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SlotsCubit? slotsCubit;
   NewNotificationCubit? newNotificationCubit;
   @override
   Widget build(BuildContext context) {
@@ -273,6 +278,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 state.error,
                                 style: TextStyle(fontSize: 20),
                               ));
+                            }
+                            else if (state is SlotDeleted) {
+                              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: msgBox("Slot deleted"),
+              );
                             } else {
                               return Center(
                                 child: CircularProgressIndicator(),
@@ -302,6 +317,42 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
+   Widget msgBox(msg) {
+    return Container(
+      padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Color(0xffe9e8e8),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
+          ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Spacer(),
+              IconButton(
+                  onPressed: () => setState(() {
+                        slotsCubit!.slots = [];
+                      }), // Navigator.pop(context),
+                  icon: Icon(Icons.cancel)),
+              SizedBox(width: 10)
+            ],
+          ),
+          Center(
+              child: Text(msg,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
+          SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
+  }
+
   List<String> months = [
     "January",
     'February',
@@ -324,3 +375,5 @@ class _HomeScreenState extends State<HomeScreen> {
     return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
   }
 }
+
+

@@ -130,6 +130,7 @@ def init_app():
     app.add_url_rule('/up/', view_func=up.up)
 
     from application.endpoints import slots
+    app.add_url_rule('/slot/del', view_func=slots.del_volunteer_slots, methods = ['POST']) 
     app.add_url_rule('/slots/', view_func=slots.get_volunteer_slots, methods = ['POST']) 
     app.add_url_rule('/slots/all/', view_func=slots.get_all_slots, methods = ['POST'])
     app.add_url_rule('/slots/change/', view_func=slots.add_slot_change, methods = ['POST'])

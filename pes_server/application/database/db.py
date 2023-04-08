@@ -303,7 +303,8 @@ vs.pes_id = v.pes_id;"""
         cursor = self.connection.cursor()
         cursor.execute(cmd, args)
         return 1
-
+  
+    
     @handle_error(-20)
     def delete_from_volunteers_slots(self, pes_id):
         args = [AsIs('volunteer_slots'), str(pes_id)]
@@ -958,6 +959,14 @@ vs.pes_id = v.pes_id;"""
     @handle_error(-44)
     def del_student_needs(self, id):
         cmd = 'delete from student_needs where n_id=%s;'
+        cursor = self.connection.cursor()
+        args = [id]
+        cursor.execute(cmd, args)
+        return 1
+    
+    @handle_error(-44)
+    def del_volunteer_slots(self, id):
+        cmd = 'delete from volunteer_slots where slots_id=%s;'
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)

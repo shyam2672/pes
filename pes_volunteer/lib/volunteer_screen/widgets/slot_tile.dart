@@ -9,21 +9,26 @@ import 'package:pes/cubit/slot_change_cubit.dart';
 import 'package:pes/data/models/slots.dart';
 import 'package:pes/data/models/user.dart';
 import 'package:pes/volunteer_screen/widgets/slot_button.dart';
+import 'package:pes/cubit/slots_cubit.dart';
+import 'package:pes/data/repositories/main_server_repository.dart';
 
 class SlotTile extends StatelessWidget {
   final Slot slot;
+
   final bool mySlot;
   TextEditingController _remarks = TextEditingController();
   User user = User.empty(token: "");
-
+  SlotsCubit? slotsCubit;
+  MainRepository mainrepo = MainRepository();
   SlotTile({Key? key, required this.slot, required this.mySlot})
       : super(key: key);
 
   Widget collapsedTile(bool isCollapsed) {
     return Container(
       // width: 250,
-      height: 100,
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+
+      height: 160,
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
       decoration: BoxDecoration(
         border: const GradientBoxBorder(
@@ -50,6 +55,23 @@ class SlotTile extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              Spacer(),
+              mySlot
+                  ? Expanded(
+                      child: IconButton(
+                          onPressed: () {
+                            // studentNeedsCubit!.delStudentNeeds(
+                            // user.token, widget.appStudentNeeds.id);
+                            // setState(() {
+                            // });
+                            slotsCubit!.delstot(user.token, slot.slotId);
+                            // setState(() {
+                            // });
+                          },
+                          color: Colors.greenAccent,
+                          icon: Icon(Icons.delete)),
+                    )
+                  : Container(),
               Spacer(),
               mySlot
                   ? _slotDayisToday()
@@ -143,6 +165,7 @@ class SlotTile extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Home Refrehsed");
     user = BlocProvider.of<LoginCubit>(context).user;
+    slotsCubit = BlocProvider.of<SlotsCubit>(context);
     attendanceCubit = BlocProvider.of<AttendanceCubit>(context);
     slotChangeCubit = BlocProvider.of<SlotChangeCubit>(context);
 

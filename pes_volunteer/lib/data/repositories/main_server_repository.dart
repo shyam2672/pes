@@ -231,6 +231,37 @@ class MainRepository {
       return e.toString();
     }
   }
+    Future<String> delMySlot(token, id) async {
+    print("My Slots");
+    print(token);
+    print(id);
+
+    try {
+      String url = baseUrl + "slot/del";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Deleted";
+      } else
+        return "Not Deleted";
+    } catch (e) {
+      print(e);
+      return "Not Deleted";
+    }
+  }
+
 
 // Student Needs
 

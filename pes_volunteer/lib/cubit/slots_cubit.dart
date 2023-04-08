@@ -50,4 +50,23 @@ class SlotsCubit extends Cubit<SlotsState> {
       });
     }
   }
+
+    void delstot(token, id) {
+    print("ff");
+    emit(Loading());
+    mainRepo.hasNetwork().then((Bool) {
+      if (!Bool)
+        emit(LoadFailure("No internet"));
+      else {
+        mainRepo.delMySlot(token, id).then((resp) {
+          print(resp);
+          if (resp == "Deleted") {
+            print("fffff");
+            emit(SlotDeleted());
+          } else
+            emit(SlotNotDeleted());
+        });
+      }
+    });
+  }
 }
