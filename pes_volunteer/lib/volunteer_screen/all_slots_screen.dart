@@ -273,7 +273,7 @@ class _State extends State<AllSlots> {
     DateTime start = now.subtract(Duration(days: now.weekday % 7));
     DateTime end = start.add(const Duration(days: 6));
 
-    return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
+    return ("${start.day} ${months[start.month - 1].substring(0, 3) + '(Sun)'} - ${end.day} ${months[end.month - 1].substring(0, 3) + '(Sat)'}");
   }
 }
 

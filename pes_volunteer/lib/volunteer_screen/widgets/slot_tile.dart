@@ -22,7 +22,7 @@ class SlotTile extends StatelessWidget {
   Widget collapsedTile(bool isCollapsed) {
     return Container(
       // width: 250,
-      height: 100,
+      height: 50,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
       decoration: BoxDecoration(
@@ -33,48 +33,86 @@ class SlotTile extends StatelessWidget {
             ]),
             // color: Color.fromARGB(255, 249, 66, 224),
             width: 1.5),
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        // borderRadius: BorderRadius.all(Radius.circular(10.0)),
         color: Color.fromARGB(255, 18, 18, 18),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        //crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(
-                slot.day,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 18,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.w500,
+              // Text(
+              //   slot.day,
+              //   style: TextStyle(
+              //     color: Color.fromARGB(255, 255, 255, 255),
+              //     fontSize: 18,
+              //     fontFamily: "Roboto",
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              // ),
+              // Spacer(),
+              // mySlot
+              //     ? _slotDayisToday()
+              //         ? Icon(
+              //             Icons.circle,
+              //             color: Colors.greenAccent,
+              //             size: 20,
+              //           )
+              //         : Container()
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 50, 0),
+                child: Text(
+                  slot.day.substring(0, 3),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-              Spacer(),
-              mySlot
-                  ? _slotDayisToday()
-                      ? Icon(
-                          Icons.circle,
-                          color: Colors.greenAccent,
-                          size: 20,
-                        )
-                      : Container()
-                  : Container()
+              //SizedBox(width: 5),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Text(
+                  slot.pathshaala,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              //Spacer(),
+              Container(
+                child: Text(
+                  "${slot.timeStart} to ${slot.timeEnd}",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              //     : Container()
             ],
           ),
-          Spacer(),
-          Row(
-            children: [
-              Spacer(),
-              TileHeading(heading: "PATHSHAALA", text: slot.pathshaala),
-              Spacer(flex: 3),
-              TileHeading(
-                  heading: "TIME",
-                  text: "${slot.timeStart} to ${slot.timeEnd}"),
-              Spacer(),
-            ],
-          ),
-          Spacer(),
+          //Spacer(),
+          // Row(
+          //   children: [
+          //     Spacer(),
+          //     TileHeading(heading: "PATHSHAALA", text: slot.pathshaala),
+          //     Spacer(flex: 3),
+          //     TileHeading(
+          //         heading: "TIME",
+          //         text: "${slot.timeStart} to ${slot.timeEnd}"),
+          //     Spacer(),
+          //   ],
+          // ),
+          // Spacer(),
         ],
       ),
     );
@@ -85,7 +123,7 @@ class SlotTile extends StatelessWidget {
       // width: 250,
       // height: 300,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: const EdgeInsets.only(bottom: 5, top: 100),
+      margin: const EdgeInsets.only(bottom: 5, top: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(8),
