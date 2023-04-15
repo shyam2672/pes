@@ -25,8 +25,8 @@ class BatchTile extends StatelessWidget {
   Widget collapsedTile(bool isCollapsed, context) {
     return Container(
       // width: 250,
-      height: 80,
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      height: 40,
+      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
       margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
       decoration: BoxDecoration(
         border: const GradientBoxBorder(
@@ -45,19 +45,19 @@ class BatchTile extends StatelessWidget {
           Row(
             children: [
               Spacer(),
-              TileHeading(
-                heading: "BATCH",
-                text: batch.batch,
-                noOfSiblings: 3,
+              Text(
+                batch.batch,
+                style: TextStyle(color: Colors.white),
               ),
               Spacer(),
-              TileHeading(
-                heading: "Classes taught",
-                text: batch.remarks,
-                noOfSiblings: 3,
+              Spacer(),
+              Text(
+                batch.remarks,
+                style: TextStyle(color: Colors.white),
               ),
               Spacer(),
               //_tileButtons(context),
+
               SlotButton(
                 text: 'Syllabus',
                 onPressed: () {

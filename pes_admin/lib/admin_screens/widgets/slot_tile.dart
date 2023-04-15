@@ -24,9 +24,9 @@ class SlotTile extends StatelessWidget {
   Widget collapsedTile(bool isCollapsed) {
     return Container(
       // width: 250,
-      height: 100,
+      height: 50,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
+      margin: EdgeInsets.only(top: 0, bottom: isCollapsed ? 0 : 0),
       decoration: BoxDecoration(
         border: const GradientBoxBorder(
             gradient: LinearGradient(colors: [
@@ -39,33 +39,48 @@ class SlotTile extends StatelessWidget {
         color: Color.fromARGB(255, 18, 18, 18),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            slot.day,
-            style: TextStyle(
-              color: Color.fromARGB(255, 255, 255, 255),
-              fontSize: 18,
-              fontFamily: "Roboto",
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Spacer(),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Spacer(),
-              TileHeading(
-                heading: "PATHSHAALA",
-                text: slot.pathshaala,
-                noOfSiblings: 2,
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 50, 0),
+                child: Text(
+                  slot.day.substring(0, 3),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-              Spacer(flex: 3),
-              TileHeading(
-                heading: "TIME",
-                text: "${slot.timeStart} to ${slot.timeEnd}",
-                noOfSiblings: 2,
+              //SizedBox(width: 5),
+              Container(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Text(
+                  slot.pathshaala,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-              Spacer(),
+              //Spacer(),
+              Container(
+                child: Text(
+                  "${slot.timeStart} to ${slot.timeEnd}",
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 18,
+                    fontFamily: "Roboto",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ],
           ),
           Spacer(),
@@ -79,19 +94,12 @@ class SlotTile extends StatelessWidget {
       // width: 250,
       // height: 300,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: const EdgeInsets.only(bottom: 5, top: 100),
+      margin: const EdgeInsets.only(bottom: 5, top: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(8),
           bottomRight: Radius.circular(8),
         ),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.grey.withOpacity(0.4),
-        //     offset: Offset(3, 3),
-        //   ),
-        // ],
-        //color: const Color.fromRGBO(93, 139, 214, .4),
         color: Colors.black,
       ),
       child: Column(
@@ -242,18 +250,24 @@ class _SlotCheckBoxState extends State<SlotCheckBox> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         // width: 250,
-        height: 100,
+        height: 50,
         padding: const EdgeInsets.fromLTRB(5, 10, 20, 10),
-        margin: EdgeInsets.only(top: 5, bottom: 5),
+        margin: EdgeInsets.only(top: 0, bottom: 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: !widget.value
-              ? Color(0xffE9EDF1).withOpacity(0.0)
-              : Colors.grey.withOpacity(0.1),
+          // color: !widget.value
+          //     ? Color(0xffE9EDF1).withOpacity(0.0)
+          //     : Colors.grey.withOpacity(0.1),
         ),
         child: Align(
           alignment: Alignment.centerLeft,
           child: Checkbox(
+            shape:
+                CircleBorder(side: BorderSide(width: 1, color: Colors.white)),
+            activeColor: Colors.white,
+            checkColor: Colors.amber,
+            hoverColor: Color.fromARGB(255, 144, 202, 249),
+            focusColor: Colors.pink,
             value: widget.value,
             onChanged: (bool) => {DeleteState(context)},
           ),

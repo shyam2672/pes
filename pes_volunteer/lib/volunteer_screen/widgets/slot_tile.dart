@@ -24,7 +24,7 @@ class SlotTile extends StatelessWidget {
       // width: 250,
       height: 50,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
+      margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 0 : 0),
       decoration: BoxDecoration(
         border: const GradientBoxBorder(
             gradient: LinearGradient(colors: [
@@ -123,7 +123,7 @@ class SlotTile extends StatelessWidget {
       // width: 250,
       // height: 300,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-      margin: const EdgeInsets.only(bottom: 5, top: 50),
+      margin: const EdgeInsets.only(bottom: 0, top: 50),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(8),
@@ -218,7 +218,7 @@ class SlotTile extends StatelessWidget {
     if (mySlot)
       return Row(
         children: [
-          Spacer(),
+          //Spacer(),
           SlotButton(
             onPressed: () {
               Navigator.pushNamed(context, SYLLABUS_SCREEN,
@@ -399,9 +399,9 @@ class _SlotCheckBoxState extends State<SlotCheckBox> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         // width: 250,
-        height: 100,
+        height: 50,
         padding: const EdgeInsets.fromLTRB(5, 10, 20, 10),
-        margin: EdgeInsets.only(top: 5, bottom: 5),
+        margin: EdgeInsets.only(top: 0, bottom: 0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
           color: !widget.value
