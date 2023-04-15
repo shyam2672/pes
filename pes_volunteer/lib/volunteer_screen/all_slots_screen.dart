@@ -15,6 +15,201 @@ import 'package:pes/volunteer_screen/widgets/sidemenu.dart';
 import 'package:pes/volunteer_screen/widgets/slot_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+class Multiselect extends StatefulWidget {
+  final List<String> item;
+  const Multiselect({Key? key, required this.item}) : super(key: key);
+
+  @override
+  State<Multiselect> createState() => _MultiselectState();
+}
+
+class _MultiselectState extends State<Multiselect> {
+  final List<String> selectitem = [];
+
+  void itemchange(String itemvalue, bool isselected) {
+    setState(() {
+      if (isselected)
+        selectitem.add(itemvalue);
+      else
+        selectitem.remove(itemvalue);
+    });
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context, selectitem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Color.fromARGB(221, 45, 45, 45),
+      title: const Text(
+        'Select Day',
+        style: TextStyle(color: Colors.white),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.item
+              .map((item) => CheckboxListTile(
+                    value: selectitem.contains(item),
+                    title: Text(
+                      item,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => itemchange(item, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
+
+class Multiselect1 extends StatefulWidget {
+  final List<String> item;
+  const Multiselect1({Key? key, required this.item}) : super(key: key);
+
+  @override
+  State<Multiselect1> createState() => _Multiselect1State();
+}
+
+class _Multiselect1State extends State<Multiselect1> {
+  final List<String> selectitem = [];
+
+  void itemchange(String itemvalue, bool isselected) {
+    setState(() {
+      if (isselected)
+        selectitem.add(itemvalue);
+      else
+        selectitem.remove(itemvalue);
+    });
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context, selectitem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Color.fromARGB(221, 45, 45, 45),
+      title: const Text(
+        'Select Pathshaala',
+        style: TextStyle(color: Colors.white),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.item
+              .map((item) => CheckboxListTile(
+                    value: selectitem.contains(item),
+                    title: Text(
+                      item,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => itemchange(item, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
+
+class Multiselect2 extends StatefulWidget {
+  final List<String> item;
+  const Multiselect2({Key? key, required this.item}) : super(key: key);
+
+  @override
+  State<Multiselect2> createState() => _Multiselect2State();
+}
+
+class _Multiselect2State extends State<Multiselect2> {
+  final List<String> selectitem = [];
+
+  void itemchange(String itemvalue, bool isselected) {
+    setState(() {
+      if (isselected)
+        selectitem.add(itemvalue);
+      else
+        selectitem.remove(itemvalue);
+    });
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context, selectitem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Color.fromARGB(221, 45, 45, 45),
+      title: const Text(
+        'Select Batch',
+        style: TextStyle(color: Colors.white),
+      ),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.item
+              .map((item) => CheckboxListTile(
+                    value: selectitem.contains(item),
+                    title: Text(
+                      item,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => itemchange(item, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
+
 class AllSlots extends StatefulWidget {
   var bottomSheetController;
 
@@ -29,6 +224,9 @@ class _State extends State<AllSlots> {
       _listRefreshController = RefreshController(initialRefresh: false);
 
   Color appBarColor = Color.fromARGB(255, 0, 0, 0);
+
+  List<Slot> selectedslot = [];
+  List<Slot> selectedslot1 = [];
 
   @override
   void initState() {
@@ -48,6 +246,126 @@ class _State extends State<AllSlots> {
     //   print(value);
     // });
     print("234 Route Name: ${widget.bottomSheetController.toString()}");
+  }
+
+  void _selectday() async {
+    final List<String> items = [
+      'SUN',
+      'MON',
+      'TUE',
+      'WED',
+      'THU',
+      'FRI',
+      'SAT'
+    ];
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Multiselect(item: items);
+      },
+    );
+
+    print("selected");
+    //print(slotsCubit!.allSlots[0].day);
+    if (results != null) {
+      List<Slot> result = [];
+      for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+        if (results!.contains(slotsCubit!.allSlots[i].day.substring(0, 3))) {
+          result.add(slotsCubit!.allSlots[i]);
+        }
+      }
+      print("more than one");
+      //print(result[0].day);
+      if (result != null) {
+        setState(() {
+          selectedslot = result;
+        });
+        print(selectedslot.length);
+      }
+    }
+  }
+
+  void _selectbatch() async {
+    final List<String> items = [];
+    Set<String> uniquebatch = {'0'};
+
+    for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+      uniquebatch.add(slotsCubit!.allSlots[i].batch);
+    }
+
+    for (String element in uniquebatch) {
+      if (element != '0') {
+        items.add(element);
+      }
+    }
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Multiselect2(item: items);
+      },
+    );
+
+    print("selected");
+    //print(slotsCubit!.allSlots[0].day);
+    if (results != null) {
+      List<Slot> result = [];
+      for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+        if (results!.contains(slotsCubit!.allSlots[i].batch)) {
+          result.add(slotsCubit!.allSlots[i]);
+        }
+      }
+      print("more than one");
+      //print(result[0].day);
+      if (result != null) {
+        setState(() {
+          selectedslot = result;
+        });
+        print(selectedslot.length);
+      }
+    }
+  }
+
+  void _selectpathshaala() async {
+    final List<String> items = [];
+    Set<String> uniquepathshaala = {'0'};
+
+    for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+      uniquepathshaala.add(slotsCubit!.allSlots[i].pathshaala);
+    }
+
+    for (String element in uniquepathshaala) {
+      if (element != '0') {
+        items.add(element);
+      }
+    }
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Multiselect1(item: items);
+      },
+    );
+
+    print("selected");
+    //print(slotsCubit!.allSlots[0].day);
+    if (results != null) {
+      List<Slot> result = [];
+      for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+        if (results!.contains(slotsCubit!.allSlots[i].pathshaala)) {
+          result.add(slotsCubit!.allSlots[i]);
+        }
+      }
+      print("more than one");
+      //print(result[0].day);
+      if (result != null) {
+        setState(() {
+          selectedslot = result;
+        });
+        print(selectedslot.length);
+      }
+    }
   }
 
   AllSlotsCubit? slotsCubit;
@@ -127,10 +445,10 @@ class _State extends State<AllSlots> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(7, 2, 7, 2),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                  ),
+                  // borderRadius: BorderRadius.only(
+                  //   topRight: Radius.circular(20),
+                  //   topLeft: Radius.circular(20),
+                  // ),
                   color: Color.fromARGB(255, 18, 18, 18),
                 ),
                 child: Column(
@@ -197,6 +515,98 @@ class _State extends State<AllSlots> {
                       thickness: 2,
                       color: Color.fromARGB(255, 52, 52, 52).withOpacity(0.3),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Day",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color.fromARGB(
+                                                    255, 88, 93, 94)),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Color.fromARGB(255, 153, 191, 224)),
+                                      ),
+                                      onPressed: _selectday,
+                                      child: Text("Filter"),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Batch",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color.fromARGB(
+                                                    255, 88, 93, 94)),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Color.fromARGB(255, 153, 191, 224)),
+                                      ),
+                                      onPressed: _selectbatch,
+                                      child: Text("Filter"),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pathshaala",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color.fromARGB(
+                                                    255, 88, 93, 94)),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Color.fromARGB(255, 153, 191, 224)),
+                                      ),
+                                      onPressed: _selectpathshaala,
+                                      child: Text("Filter"),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: SizedBox(
+                                  width: 40,
+                                  child: Text(
+                                    "Time",
+                                    style: TextStyle(color: Colors.white),
+                                  ))),
+                        ],
+                      ),
+                    ),
                     Expanded(
                       flex: 30,
                       child: Container(
@@ -220,7 +630,9 @@ class _State extends State<AllSlots> {
                                 },
                                 child: ListView(
                                   padding: EdgeInsets.all(4),
-                                  children: slotsCubit!.allSlots
+                                  children: (selectedslot.length == 0
+                                          ? slotsCubit!.allSlots
+                                          : selectedslot)
                                       .map((slot) => SlotTile(
                                             slot: slot,
                                             mySlot: false,

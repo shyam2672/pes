@@ -21,7 +21,7 @@ class SlotTile extends StatelessWidget {
 
   Widget collapsedTile(bool isCollapsed) {
     return Container(
-      // width: 250,
+      //width: 800,
       height: 50,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 0 : 0),
@@ -39,66 +39,83 @@ class SlotTile extends StatelessWidget {
       child: Column(
         //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // Text(
-              //   slot.day,
-              //   style: TextStyle(
-              //     color: Color.fromARGB(255, 255, 255, 255),
-              //     fontSize: 18,
-              //     fontFamily: "Roboto",
-              //     fontWeight: FontWeight.w500,
-              //   ),
-              // ),
-              // Spacer(),
-              // mySlot
-              //     ? _slotDayisToday()
-              //         ? Icon(
-              //             Icons.circle,
-              //             color: Colors.greenAccent,
-              //             size: 20,
-              //           )
-              //         : Container()
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 50, 0),
-                child: Text(
-                  slot.day.substring(0, 3),
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 18,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w500,
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // Text(
+                //   slot.day,
+                //   style: TextStyle(
+                //     color: Color.fromARGB(255, 255, 255, 255),
+                //     fontSize: 18,
+                //     fontFamily: "Roboto",
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                // ),
+                // Spacer(),
+                // mySlot
+                //     ? _slotDayisToday()
+                //         ? Icon(
+                //             Icons.circle,
+                //             color: Colors.greenAccent,
+                //             size: 20,
+                //           )
+                //         : Container()
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 50, 0),
+                  child: Text(
+                    slot.day.substring(0, 3),
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 18,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-              //SizedBox(width: 5),
-              Container(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text(
-                  slot.pathshaala,
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 18,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w500,
+                //SizedBox(width: 5),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text(
+                    slot.batch,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 18,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-              //Spacer(),
-              Container(
-                child: Text(
-                  "${slot.timeStart} to ${slot.timeEnd}",
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 18,
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w500,
+
+                Container(
+                  padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
+                  child: Text(
+                    slot.pathshaala,
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 18,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-              //     : Container()
-            ],
+                //Spacer(),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                  child: Text(
+                    "${slot.timeStart} to ${slot.timeEnd}",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 18,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                //     : Container()
+              ],
+            ),
           ),
           //Spacer(),
           // Row(

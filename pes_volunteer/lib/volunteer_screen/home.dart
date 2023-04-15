@@ -206,10 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: EdgeInsets.fromLTRB(7, 2, 7, 2),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    topLeft: Radius.circular(20),
-                  ),
+                  // borderRadius: BorderRadius.only(
+                  //   topRight: Radius.circular(20),
+                  //   topLeft: Radius.circular(20),
+                  // ),
                   color: Color.fromARGB(255, 18, 18, 18),
                 ),
                 child: Column(
@@ -235,6 +235,98 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Day",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    // ElevatedButton(
+                                    //   style: ButtonStyle(
+                                    //     backgroundColor:
+                                    //         MaterialStateProperty.all(
+                                    //             Color.fromARGB(
+                                    //                 255, 88, 93, 94)),
+                                    //     overlayColor: MaterialStateProperty.all(
+                                    //         Color.fromARGB(255, 153, 191, 224)),
+                                    //   ),
+                                    //   onPressed: _selectday,
+                                    //   child: Text("Filter"),
+                                    // )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Batch",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    // ElevatedButton(
+                                    //   style: ButtonStyle(
+                                    //     backgroundColor:
+                                    //         MaterialStateProperty.all(
+                                    //             Color.fromARGB(
+                                    //                 255, 88, 93, 94)),
+                                    //     overlayColor: MaterialStateProperty.all(
+                                    //         Color.fromARGB(255, 153, 191, 224)),
+                                    //   ),
+                                    //   onPressed: _selectbatch,
+                                    //   child: Text("Filter"),
+                                    // )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pathshaala",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    // ElevatedButton(
+                                    //   style: ButtonStyle(
+                                    //     backgroundColor:
+                                    //         MaterialStateProperty.all(
+                                    //             Color.fromARGB(
+                                    //                 255, 88, 93, 94)),
+                                    //     overlayColor: MaterialStateProperty.all(
+                                    //         Color.fromARGB(255, 153, 191, 224)),
+                                    //   ),
+                                    //   onPressed: _selectpathshaala,
+                                    //   child: Text("Filter"),
+                                    // )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: SizedBox(
+                                  width: 40,
+                                  child: Text(
+                                    "Time",
+                                    style: TextStyle(color: Colors.white),
+                                  ))),
+                        ],
+                      ),
+                    ),
                     Expanded(
                       flex: 30,
                       child: Container(
@@ -321,6 +413,6 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime start = now.subtract(Duration(days: now.weekday));
     DateTime end = start.add(const Duration(days: 6));
 
-    return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
+    return ("${start.day} ${months[start.month - 1].substring(0, 3) + "(Sun)"} - ${end.day} ${months[end.month - 1].substring(0, 3) + "(Sat)"}");
   }
 }
