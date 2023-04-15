@@ -308,13 +308,50 @@ class _State extends State<AllBatches> {
                               }
                             },
                           ),
-                          Spacer(),
                         ],
                       ),
                     ),
                     Divider(
                       thickness: 3,
-                      color: Colors.grey.withOpacity(0.1),
+                      color:
+                          Color.fromARGB(255, 233, 231, 231).withOpacity(0.5),
+                    ),
+                    Container(
+                      height: 40,
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      margin: EdgeInsets.only(top: 0, bottom: 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Spacer(),
+                              Text(
+                                "Batch",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 138, 136, 136)),
+                              ),
+                              Spacer(),
+                              Spacer(),
+                              Text(
+                                "Classes taught",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 138, 136, 136)),
+                              ),
+                              Spacer(),
+
+                              Text(
+                                "\t\t\t                ",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 138, 136, 136)),
+                              ),
+                              Spacer(),
+                              //_tileButtons(context),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     Expanded(
                       flex: 30,
@@ -395,7 +432,7 @@ class _State extends State<AllBatches> {
     DateTime start = now.subtract(Duration(days: now.weekday % 7));
     DateTime end = start.add(const Duration(days: 6));
 
-    return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
+    return ("${start.day} ${months[start.month - 1].substring(0, 3) + "(Sun)"} - ${end.day} ${months[end.month - 1].substring(0, 3) + "(Sat)"}");
   }
 }
 
