@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:pes_admin/admin_screens/widgets/side_menu.dart';
 import 'package:pes_admin/admin_screens/widgets/slot_button.dart';
 import 'package:pes_admin/admin_screens/widgets/slot_tile.dart';
@@ -11,8 +10,127 @@ import 'package:pes_admin/cubit/all_slots_cubit.dart';
 import 'package:pes_admin/cubit/login_cubit.dart';
 import 'package:pes_admin/cubit/slot_delete_cubit.dart';
 import 'package:pes_admin/cubit/slot_edit_cubit.dart';
+import 'package:pes_admin/data/models/slots.dart';
 import 'package:pes_admin/data/models/user.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pes_admin/admin_screens/widgets/attendance_filters.dart';
+import 'package:pes_admin/cubit/attendance_cubit.dart';
+
+class Multiselect extends StatefulWidget {
+  final List<String> item;
+  const Multiselect({Key? key, required this.item}) : super(key: key);
+
+  @override
+  State<Multiselect> createState() => _MultiselectState();
+}
+
+class _MultiselectState extends State<Multiselect> {
+  final List<String> selectitem = [];
+
+  void itemchange(String itemvalue, bool isselected) {
+    setState(() {
+      if (isselected)
+        selectitem.add(itemvalue);
+      else
+        selectitem.remove(itemvalue);
+    });
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context, selectitem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Select Day'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.item
+              .map((item) => CheckboxListTile(
+                    value: selectitem.contains(item),
+                    title: Text(item),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => itemchange(item, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
+
+class Multiselect1 extends StatefulWidget {
+  final List<String> item;
+  const Multiselect1({Key? key, required this.item}) : super(key: key);
+
+  @override
+  State<Multiselect1> createState() => _Multiselect1State();
+}
+
+class _Multiselect1State extends State<Multiselect1> {
+  final List<String> selectitem = [];
+
+  void itemchange(String itemvalue, bool isselected) {
+    setState(() {
+      if (isselected)
+        selectitem.add(itemvalue);
+      else
+        selectitem.remove(itemvalue);
+    });
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+  }
+
+  void submit() {
+    Navigator.pop(context, selectitem);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Select Pathshaala'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.item
+              .map((item) => CheckboxListTile(
+                    value: selectitem.contains(item),
+                    title: Text(item),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => itemchange(item, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
 
 class AllSlots extends StatefulWidget {
   var bottomSheetController;
@@ -28,6 +146,9 @@ class _State extends State<AllSlots> {
       _listRefreshController = RefreshController(initialRefresh: false);
 
   Color appBarColor = Colors.black;
+
+  List<Slot> selectedslot = [];
+  List<Slot> selectedslot1 = [];
 
   @override
   void initState() {
@@ -46,6 +167,85 @@ class _State extends State<AllSlots> {
     // widget.bottomSheetController.closed.then((value) {
     //   print(value);
     // });
+  }
+
+  void _selectday() async {
+    final List<String> items = [
+      'SUN',
+      'MON',
+      'TUE',
+      'WED',
+      'THU',
+      'FRI',
+      'SAT'
+    ];
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Multiselect(item: items);
+      },
+    );
+
+    print("selected");
+    //print(slotsCubit!.allSlots[0].day);
+    if (results != null) {
+      List<Slot> result = [];
+      for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+        if (results!.contains(slotsCubit!.allSlots[i].day.substring(0, 3))) {
+          result.add(slotsCubit!.allSlots[i]);
+        }
+      }
+      print("more than one");
+      //print(result[0].day);
+      if (result != null) {
+        setState(() {
+          selectedslot = result;
+        });
+        print(selectedslot.length);
+      }
+    }
+  }
+
+  void _selectpathshaala() async {
+    final List<String> items = [];
+    Set<String> uniquepathshaala = {'0'};
+
+    for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+      uniquepathshaala.add(slotsCubit!.allSlots[i].pathshaala);
+    }
+
+    for (String element in uniquepathshaala) {
+      if (element != '0') {
+        items.add(element);
+      }
+    }
+
+    final List<String>? results = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Multiselect1(item: items);
+      },
+    );
+
+    print("selected");
+    //print(slotsCubit!.allSlots[0].day);
+    if (results != null) {
+      List<Slot> result = [];
+      for (int i = 0; i < slotsCubit!.allSlots.length; i++) {
+        if (results!.contains(slotsCubit!.allSlots[i].pathshaala)) {
+          result.add(slotsCubit!.allSlots[i]);
+        }
+      }
+      print("more than one");
+      //print(result[0].day);
+      if (result != null) {
+        setState(() {
+          selectedslot = result;
+        });
+        print(selectedslot.length);
+      }
+    }
   }
 
   Widget topbar() {
@@ -318,6 +518,73 @@ class _State extends State<AllSlots> {
                       thickness: 3,
                       color: Colors.grey.withOpacity(0.1),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Day",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color.fromARGB(
+                                                    255, 88, 93, 94)),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Color.fromARGB(255, 153, 191, 224)),
+                                      ),
+                                      onPressed: _selectday,
+                                      child: Text("Filter"),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                            child: SizedBox(
+                                width: 70,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Pathshaala",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Color.fromARGB(
+                                                    255, 88, 93, 94)),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Color.fromARGB(255, 153, 191, 224)),
+                                      ),
+                                      onPressed: _selectpathshaala,
+                                      child: Text("Filter"),
+                                    )
+                                  ],
+                                )),
+                          ),
+                          Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: SizedBox(
+                                  width: 70,
+                                  child: Text(
+                                    "Time",
+                                    style: TextStyle(color: Colors.white),
+                                  ))),
+                        ],
+                      ),
+                    ),
                     Expanded(
                       flex: 30,
                       child: Container(
@@ -344,7 +611,9 @@ class _State extends State<AllSlots> {
                                 },
                                 child: ListView(
                                   padding: EdgeInsets.all(4),
-                                  children: slotsCubit!.allSlots
+                                  children: (selectedslot.length == 0
+                                          ? slotsCubit!.allSlots
+                                          : selectedslot)
                                       .map((slot) => SlotTile(
                                             slot: slot,
                                             mySlot: false,
@@ -397,7 +666,7 @@ class _State extends State<AllSlots> {
     DateTime start = now.subtract(Duration(days: now.weekday % 7));
     DateTime end = start.add(const Duration(days: 6));
 
-    return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
+    return ("${start.day} ${months[start.month - 1].substring(0, 3) + '(Sun)'} - ${end.day} ${months[end.month - 1].substring(0, 3) + "(Sat)"}");
   }
 }
 
