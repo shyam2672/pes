@@ -143,6 +143,48 @@ class _IndividualSlotsScreenState extends State<IndividualSlotsScreen> {
               //   thickness: 2,
               //   color: Colors.grey.withOpacity(0.1),
               // ),
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                      child: SizedBox(
+                          width: 70,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Day",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                      child: SizedBox(
+                          width: 70,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Pathshaala",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: SizedBox(
+                            width: 70,
+                            child: Text(
+                              "Time",
+                              style: TextStyle(color: Colors.white),
+                            ))),
+                  ],
+                ),
+              ),
               Expanded(
                 flex: 30,
                 child: Container(
