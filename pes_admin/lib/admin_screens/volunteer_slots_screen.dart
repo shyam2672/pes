@@ -88,6 +88,48 @@ class _ListVolunteersScreenState extends State<ListVolunteersScreen> {
                 thickness: 2,
                 color: Colors.grey.withOpacity(0.1),
               ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                      child: SizedBox(
+                          width: 70,
+                          child: Column(
+                            children: [
+                              Text(
+                                "PES ID",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(13, 10, 11, 10),
+                      child: SizedBox(
+                          width: 70,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Name",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        child: SizedBox(
+                            width: 70,
+                            child: Text(
+                              "Pathshaala",
+                              style: TextStyle(color: Colors.white),
+                            ))),
+                  ],
+                ),
+              ),
               Expanded(
                 flex: 30,
                 child: Container(
@@ -156,9 +198,9 @@ class VolunteerTile extends StatelessWidget {
     return InkWell(
       child: Container(
         // width: 250,
-        height: 80,
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        margin: EdgeInsets.only(top: 5, bottom: 5),
+        height: 40,
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        margin: EdgeInsets.only(top: 0, bottom: 0),
         decoration: BoxDecoration(
           border: const GradientBoxBorder(
               gradient: LinearGradient(colors: [
@@ -169,18 +211,28 @@ class VolunteerTile extends StatelessWidget {
               width: 1.5),
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
+
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Spacer(),
             Row(
               children: [
                 Spacer(),
-                TileHeading(heading: "PES ID", text: volunteer.pes_id),
+                Text(
+                  volunteer.pes_id,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
                 Spacer(),
-                TileHeading(heading: "NAME", text: volunteer.name),
+                Text(
+                  volunteer.name,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
                 Spacer(),
-                TileHeading(heading: "PATHSHAALA", text: volunteer.pathshaala),
+                Text(
+                  volunteer.pathshaala,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
                 Spacer(),
               ],
             ),
