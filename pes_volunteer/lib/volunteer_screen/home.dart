@@ -17,18 +17,13 @@ import 'package:pes/volunteer_screen/widgets/sidemenu.dart';
 import 'package:pes/volunteer_screen/widgets/slot_tile.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
-
-
 User user = User.empty(token: "");
-  SlotsCubit? slotsCubit;
+SlotsCubit? slotsCubit;
 
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
-  
 
 class _HomeScreenState extends State<HomeScreen> {
   late LoggedIn currentstate;
@@ -121,6 +116,39 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  slotTiles() {
+    List<String> days = [
+      'SUNDAY',
+      'MONDAY',
+      'TUESDAY',
+      'WEDNESDAY',
+      'THURSDAY',
+      'FRIDAY',
+      'SATURDAY'
+    ];
+    List<SlotTile> slotTiles = slotsCubit!.slots
+        .map((slot) => SlotTile(
+              slot: slot,
+              mySlot: true,
+            ))
+        .toList();
+    int n = slotTiles.length;
+    bool ff=false;
+    for (int i = 0; i < n; i++) {
+      ff = false;
+      ff = days.indexOf(slotTiles[i].slot.day) == DateTime.now().weekday;
+      print(ff);
+      print(i);
+      print(slotTiles[i].slot.day);
+      if (ff) {
+        SlotTile f = slotTiles[i];
+        slotTiles.remove(f);
+        slotTiles.insert(0, f);
+      }
+    }
+    return slotTiles;
+  }
+
   NewNotificationCubit? newNotificationCubit;
   @override
   Widget build(BuildContext context) {
@@ -130,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
     slotsCubit!.loadVolunteerSlots(user.token);
     newNotificationCubit = BlocProvider.of<NewNotificationCubit>(context);
     newNotificationCubit!.getNewNotification(user.token);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: SideDrawer(),
@@ -264,12 +293,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 child: ListView(
                                   padding: EdgeInsets.all(4),
-                                  children: slotsCubit!.slots
-                                      .map((slot) => SlotTile(
-                                            slot: slot,
-                                            mySlot: true,
-                                          ))
-                                      .toList(),
+                                  children: slotTiles(),
+                                  // List<Widget> slotTiles=slotsCubit!.slots
+                                  //     .map((slot) => SlotTile(
+                                  //           slot: slot,
+                                  //           mySlot: true,
+                                  //         )
+                                  //         )
+                                  //     .toList(),
                                 ),
                               );
                             } else if (state is LoadFailure) {
@@ -278,16 +309,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 state.error,
                                 style: TextStyle(fontSize: 20),
                               ));
-                            }
-                            else if (state is SlotDeleted) {
+                            } else if (state is SlotDeleted) {
                               return Dialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                child: msgBox("Slot deleted"),
-              );
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                elevation: 0,
+                                backgroundColor: Colors.transparent,
+                                child: msgBox("Slot deleted"),
+                              );
                             } else {
                               return Center(
                                 child: CircularProgressIndicator(),
@@ -317,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-   Widget msgBox(msg) {
+  Widget msgBox(msg) {
     return Container(
       padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(
@@ -375,5 +405,3 @@ class _HomeScreenState extends State<HomeScreen> {
     return ("${start.day} ${months[start.month - 1].substring(0, 3)} - ${end.day} ${months[end.month - 1].substring(0, 3)}");
   }
 }
-
-

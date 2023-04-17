@@ -14,8 +14,9 @@ import 'package:pes/data/repositories/main_server_repository.dart';
 
 class SlotTile extends StatelessWidget {
   final Slot slot;
-
+  var istoday=false;
   final bool mySlot;
+  
   TextEditingController _remarks = TextEditingController();
   User user = User.empty(token: "");
   SlotsCubit? slotsCubit;
@@ -57,20 +58,22 @@ class SlotTile extends StatelessWidget {
               ),
               Spacer(),
               mySlot
-                  ? Expanded(
-                      child: IconButton(
-                          onPressed: () {
-                            // studentNeedsCubit!.delStudentNeeds(
-                            // user.token, widget.appStudentNeeds.id);
-                            // setState(() {
-                            // });
-                            slotsCubit!.delstot(user.token, slot.slotId);
-                            // setState(() {
-                            // });
-                          },
-                          color: Colors.greenAccent,
-                          icon: Icon(Icons.delete)),
-                    )
+                  ? !_slotDayisToday()
+                      ? Expanded(
+                          child: IconButton(
+                              onPressed: () {
+                                // studentNeedsCubit!.delStudentNeeds(
+                                // user.token, widget.appStudentNeeds.id);
+                                // setState(() {
+                                // });
+                                slotsCubit!.delstot(user.token, slot.slotId);
+                                // setState(() {
+                                // });
+                              },
+                              color: Colors.greenAccent,
+                              icon: Icon(Icons.delete)),
+                        )
+                      : Container()
                   : Container(),
               Spacer(),
               mySlot
@@ -338,7 +341,8 @@ class SlotTile extends StatelessWidget {
     'SATURDAY'
   ];
   _slotDayisToday() {
-    return days.indexOf(slot.day) == DateTime.now().weekday;
+    if (days.indexOf(slot.day) == DateTime.now().weekday) istoday = true;
+    return istoday;
   }
 }
 
