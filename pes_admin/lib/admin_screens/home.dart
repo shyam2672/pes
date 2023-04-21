@@ -71,6 +71,7 @@ class _State extends State<HomeScreen> {
     );
 
     List<Widget> p1 = [];
+
     if (todayVolunteerCubit!.p1_volunteers.isNotEmpty) {
       p1.add(SectionHeading("Pathshaala 1"));
       p1.addAll(todayVolunteerCubit!.p1_volunteers
@@ -87,38 +88,7 @@ class _State extends State<HomeScreen> {
               ))
           .toList());
     }
-    if (todayVolunteerCubit!.p1_volunteers.isNotEmpty) {
-      p1.add(SectionHeading("Pathshaala 1"));
-      p1.addAll(todayVolunteerCubit!.p1_volunteers
-          .map((volunteer) => HomeVolunteerTile(
-                volunteer: volunteer,
-              ))
-          .toList());
-    }
-    if (todayVolunteerCubit!.p1_volunteers.isNotEmpty) {
-      p1.add(SectionHeading("Pathshaala 1"));
-      p1.addAll(todayVolunteerCubit!.p1_volunteers
-          .map((volunteer) => HomeVolunteerTile(
-                volunteer: volunteer,
-              ))
-          .toList());
-    }
-    if (todayVolunteerCubit!.p1_volunteers.isNotEmpty) {
-      p1.add(SectionHeading("Pathshaala 1"));
-      p1.addAll(todayVolunteerCubit!.p1_volunteers
-          .map((volunteer) => HomeVolunteerTile(
-                volunteer: volunteer,
-              ))
-          .toList());
-    }
-    if (todayVolunteerCubit!.p1_volunteers.isNotEmpty) {
-      p1.add(SectionHeading("Pathshaala 1"));
-      p1.addAll(todayVolunteerCubit!.p1_volunteers
-          .map((volunteer) => HomeVolunteerTile(
-                volunteer: volunteer,
-              ))
-          .toList());
-    }
+
     print(p1);
     print(todayVolunteerCubit!.p1_volunteers);
     return p1;
@@ -245,6 +215,14 @@ class _State extends State<HomeScreen> {
           ),
           backgroundColor: appBarColor,
           bottom: TabBar(tabs: <Widget>[
+            Tab(
+              child: Container(
+                child: Text(
+                  todayDayOfWeekString + "              " + todayDate,
+                  style: TextStyle(color: Colors.white, fontSize: 15.0),
+                ),
+              ),
+            ),
             Tab(
               child: Container(
                 child: Text(
