@@ -47,3 +47,6 @@ const NOTIFICATION_DETAIL = "/notification_details";
 const NEEDS = "/student_needs";
 
 const NEEDS_DETAILS = "/student_needs/details";
+
+const OUTREACH = "/outreach";
+

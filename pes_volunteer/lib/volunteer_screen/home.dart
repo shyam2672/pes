@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 elevation: 0,
                                 backgroundColor: Colors.transparent,
-                                child: msgBox("Slot deleted"),
+                                child: msgBox("Slot delete request sent"),
                               );
                             } else {
                               return Center(
@@ -348,6 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget msgBox(msg) {
+    
     return Container(
       padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(

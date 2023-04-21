@@ -9,11 +9,13 @@ import 'package:pes_admin/data/models/notifications.dart';
 import 'package:pes_admin/data/models/slots.dart';
 import 'package:pes_admin/data/models/volunteer.dart';
 import 'package:pes_admin/data/models/volunteer_attendance.dart';
+import 'package:pes_admin/data/models/outreachslot.dart';
+
 
 import '../models/studentNeeds.dart';
 
 class MainRepository {
-  final baseUrl = "http://172.30.8.213:5002/";
+  final baseUrl = "http://172.30.8.213:5005/";
   // final baseUrl = 'http://20.231.8.139/';
   // final baseUrl = "http://10.0.2.2:5000/";
   // final baseUrl = "http://pesserver.azurewebsites.net/";
@@ -297,6 +299,34 @@ class MainRepository {
         requested = jsonDecode(response.body)['requested'];
 
         return [true, allSlots, current, requested];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+  //outreach
+
+   Future<List> getoutreachSlots(token) async {
+    print("outreach Slots");
+    try {
+      String url = baseUrl + "admin/getoutreachslots/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<outreachSlot> outreachSlots = [];
+        for (Map i in jsonDecode(response.body)["outreach"])
+          outreachSlots.add(outreachSlot.fromJson(i));
+
+        return [true, outreachSlots];
       } else
         return [false];
     } catch (e) {
@@ -769,6 +799,13 @@ class SlotResponse {
   List<Slot> slots = [];
 
   SlotResponse({required this.hasLoaded});
+}
+
+class outreachSlotResponse {
+  bool hasLoaded;
+  List<outreachSlot> slots = [];
+
+  outreachSlotResponse({required this.hasLoaded});
 }
 
 class VolunteerHomeResponse {

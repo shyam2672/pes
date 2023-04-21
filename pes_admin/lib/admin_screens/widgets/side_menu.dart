@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pes_admin/admin_screens/home.dart';
+
 import 'package:pes_admin/constants/strings.dart';
 import 'package:pes_admin/cubit/login_cubit.dart';
 
@@ -161,6 +162,32 @@ class _SideDrawerState extends State<SideDrawer> {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.pushNamed(context, ATTENDANCE_SCREEN);
+            },
+          ),
+          ListTile(
+            leading: admin_dark_theme
+                ? const Icon(
+                    IconData(0xe2eb, fontFamily: 'MaterialIcons'),
+                    color: Colors.white,
+                  )
+                : Icon(
+                    IconData(0xe2eb, fontFamily: 'MaterialIcons'),
+                    color: Colors.black,
+                  ),
+            title: admin_dark_theme
+                ? const Text(
+                    'Outreach',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal, color: Colors.white),
+                  )
+                : Text(
+                    'Outreach',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal, color: Colors.black),
+                  ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, OUTREACH);
             },
           ),
           ListTile(

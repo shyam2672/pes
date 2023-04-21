@@ -231,7 +231,8 @@ class MainRepository {
       return e.toString();
     }
   }
-    Future<String> delMySlot(token, id) async {
+
+  Future<String> delMySlot(token, id) async {
     print("My Slots");
     print(token);
     print(id);
@@ -261,7 +262,6 @@ class MainRepository {
       return "Not Deleted";
     }
   }
-
 
 // Student Needs
 

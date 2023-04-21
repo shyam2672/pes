@@ -79,6 +79,20 @@ class SideDrawer extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(IconData(0xe2eb, fontFamily: 'MaterialIcons'),
+                  color: Colors.white),
+              title: const Text(
+                'Outreach',
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamed(context, NEEDS);
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.exit_to_app, color: Colors.white),
               title: const Text(
                 'Logout',

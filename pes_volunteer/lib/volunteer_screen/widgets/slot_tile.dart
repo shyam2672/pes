@@ -14,9 +14,9 @@ import 'package:pes/data/repositories/main_server_repository.dart';
 
 class SlotTile extends StatelessWidget {
   final Slot slot;
-  var istoday=false;
+  var istoday = false;
   final bool mySlot;
-  
+
   TextEditingController _remarks = TextEditingController();
   User user = User.empty(token: "");
   SlotsCubit? slotsCubit;
@@ -28,7 +28,7 @@ class SlotTile extends StatelessWidget {
     return Container(
       // width: 250,
 
-      height: 160,
+      height: 140,
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
       margin: EdgeInsets.only(top: 5, bottom: isCollapsed ? 5 : 0),
       decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class SlotTile extends StatelessWidget {
             // color: Color.fromARGB(255, 249, 66, 224),
             width: 1.5),
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: Color.fromARGB(255, 18, 18, 18),
+        color: getcolor(),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,21 +70,22 @@ class SlotTile extends StatelessWidget {
                                 // setState(() {
                                 // });
                               },
-                              color: Colors.greenAccent,
+                              color: Colors.red,
+                              // padding: const EdgeInsets.fromLTRB(155, 0, 0, 0),
                               icon: Icon(Icons.delete)),
                         )
                       : Container()
                   : Container(),
-              Spacer(),
-              mySlot
-                  ? _slotDayisToday()
-                      ? Icon(
-                          Icons.circle,
-                          color: Colors.greenAccent,
-                          size: 20,
-                        )
-                      : Container()
-                  : Container()
+              // Spacer(),
+              // mySlot
+              //     ? _slotDayisToday()
+              //         ? Icon(
+              //             Icons.circle,
+              //             color: Colors.greenAccent,
+              //             size: 20,
+              //           )
+              //         : Container()
+              //     : Container()
             ],
           ),
           Spacer(),
@@ -200,6 +201,13 @@ class SlotTile extends StatelessWidget {
         }
       },
     );
+  }
+
+  getcolor() {
+    if (mySlot && _slotDayisToday())
+      return Colors.red;
+    else
+      return Color.fromARGB(255, 18, 18, 18);
   }
 
   _tileButtons(context) {

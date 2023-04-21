@@ -19,6 +19,9 @@ import 'package:pes_admin/admin_screens/splash_screen.dart';
 import 'package:pes_admin/admin_screens/home.dart';
 import 'package:pes_admin/admin_screens/syllabus_view.dart';
 import 'package:pes_admin/admin_screens/volunteer_slots_screen.dart';
+import 'package:pes_admin/admin_screens/outreach_slots_screen.dart';
+import 'package:pes_admin/admin_screens/student_needs.dart';
+
 import 'package:pes_admin/cubit/add_batch_cubit.dart';
 import 'package:pes_admin/cubit/add_slot_cubit.dart';
 import 'package:pes_admin/cubit/all_batches_cubit.dart';
@@ -43,6 +46,8 @@ import 'package:pes_admin/cubit/studentNeeds_cubit.dart';
 import 'package:pes_admin/cubit/syllabus_cubit.dart';
 import 'package:pes_admin/cubit/today_volunteer_cubit.dart';
 import 'package:pes_admin/cubit/volunteer_slots_cubit.dart';
+import 'package:pes_admin/cubit/outreach_cubit.dart';
+
 import 'package:pes_admin/data/repositories/main_server_repository.dart';
 import 'package:pes_admin/constants/strings.dart';
 
@@ -76,7 +81,7 @@ class AppRouter {
   BatchEditCubit? batchEditCubit;
   BatchDeleteCubit? batchDeleteCubit;
   StudentNeedsCubit? studentNeedsCubit;
-
+  OutreachCubit? outreachCubit;
   AppRouter() {
     mainRepo = MainRepository();
     loginCubit = LoginCubit(repository: mainRepo!);
@@ -98,6 +103,8 @@ class AppRouter {
     slotChangeCubit = SlotChangeCubit(mainRepo: mainRepo!);
     notificationsCubit = NotificationsCubit(mainRepo: mainRepo!);
     studentNeedsCubit = StudentNeedsCubit(mainRepo: mainRepo!);
+    outreachCubit = OutreachCubit(mainRepo: mainRepo!);
+
     allBatchesCubit = AllBatchesCubit(mainRepo: mainRepo!);
     addBatchCubit = AddBatchCubit(mainRepository: mainRepo!);
     batchCubit = BatchCubit(mainRepo: mainRepo!);
@@ -134,6 +141,7 @@ class AppRouter {
           BlocProvider.value(value: slotChangeCubit!),
           BlocProvider.value(value: notificationsCubit!),
           BlocProvider.value(value: studentNeedsCubit!),
+          BlocProvider.value(value: outreachCubit!),
           BlocProvider.value(value: allBatchesCubit!),
           BlocProvider.value(value: addBatchCubit!),
           BlocProvider.value(value: batchCubit!),
@@ -288,6 +296,8 @@ class AppRouter {
 
       case NEEDS:
         return _blocProvidedRoute(settings, StudentNeedsScreen());
+      case OUTREACH:
+        return _blocProvidedRoute(settings,OutreachSlotsScreen());
       case NEEDS_DETAILS:
         Map args = settings.arguments as Map;
         return _blocProvidedRoute(
