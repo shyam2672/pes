@@ -1193,7 +1193,7 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def admin_reject_outreach(self, id):
-        cmd = 'delete from volunteer_outreach_slots where n_id=%s;'
+        cmd = 'delete from volunteer_outreach_slots where slot_id=%s;'
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)
@@ -1201,7 +1201,7 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def admin_accept_outreach(self, id):
-        cmd = "update  volunteer_outreach_slots where n_id=%s set status='approved';"
+        cmd = "update  volunteer_outreach_slots set status='approved' where slot_id=%d ;"
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)

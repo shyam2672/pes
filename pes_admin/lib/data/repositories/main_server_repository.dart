@@ -335,6 +335,96 @@ class MainRepository {
     }
   }
 
+  Future<List> getoutreachSlots(token) async {
+    print("outreach Slots");
+    try {
+      String url = baseUrl + "admin/getoutreachslots/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<outreachSlot> outreachSlots = [];
+        for (Map i in jsonDecode(response.body)["outreach"])
+          outreachSlots.add(outreachSlot.fromJson(i));
+
+        return [true, outreachSlots];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+
+  Future<String> rejectoutreachslot(token, id) async {
+    print("reject outreach");
+    print(token);
+    print(id);
+
+    try {
+      String url = baseUrl + "/admin/outreach/reject";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Rejected";
+      } else
+        return "Not Rejected";
+    } catch (e) {
+      print(e);
+      return "Not Rejected";
+    }
+  }
+
+
+  Future<String> acceptoutreachslot(token, id) async {
+    print("accept outreach");
+    print(token);
+    print(id);
+
+    try {
+      String url = baseUrl + "/admin/outreach/accept";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Accepted";
+      } else
+        return "Not Accepted";
+    } catch (e) {
+      print(e);
+      return "Not Accepted";
+    }
+  }
+
   // Student Needs
 
   Future<List> getStudentNeeds(token) async {

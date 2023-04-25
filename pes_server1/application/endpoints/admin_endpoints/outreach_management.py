@@ -144,7 +144,8 @@ def admin_getoutreach(adminId):
 
 @admin_auth
 def admin_reject(adminId):
-    slots = current_app.config['db'].admin_reject_outreach()
+    data = request.get_json()
+    slots = current_app.config['db'].admin_reject_outreach(data['id'])
     if(slots == -44):
         responseObject = {
             'status': 'failed',
@@ -160,7 +161,8 @@ def admin_reject(adminId):
     
 @admin_auth
 def admin_accept(adminId):
-    slots = current_app.config['db'].admin_accept_outreach()
+    data = request.get_json()
+    slots = current_app.config['db'].admin_accept_outreach(data['id'])
     if(slots == -44):
         responseObject = {
             'status': 'failed',

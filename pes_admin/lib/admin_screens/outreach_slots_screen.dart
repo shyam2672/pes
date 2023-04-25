@@ -9,6 +9,60 @@ import 'package:pes_admin/data/models/user.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:pes_admin/data/models/outreachslot.dart';
 
+Widget topbar() {
+   
+            return PopupMenuButton(
+                // padding: EdgeInsets.zero,
+                onCanceled: () {
+              print('Popupmenu cancelled!');
+            }, itemBuilder: (context) {
+              return [
+                PopupMenuItem<int>(
+                  value: 0,
+                  child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, ADDSCHOOL);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width, 30)),
+                      icon: Icon(
+                        Icons.add,
+                        color: appBarColor,
+                      ),
+                      label: Text(
+                        "Add School",
+                        style: TextStyle(color: appBarColor),
+                      )),
+                ),
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, ADDTOPIC);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          minimumSize:
+                              Size(MediaQuery.of(context).size.width, 30)),
+                      icon: Icon(
+                        Icons.add,
+                        color: appBarColor,
+                      ),
+                      label: Text(
+                        "Add Topic",
+                        style: TextStyle(color: appBarColor),
+                      )),
+                ),
+                
+              ];
+            });
+          }
+    
+
 class OutreachSlotsScreen extends StatefulWidget {
   @override
   State<OutreachSlotsScreen> createState() => _OutreachScreenState();
@@ -172,9 +226,11 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
       resizeToAvoidBottomInset: false,
       // drawer: SideDrawer(),
       appBar: AppBar(
-        elevation: 0,
+         actions: [topbar()],
+            elevation: 0,
         // centerTitle: true,
         title: const Text(
+             
           "Outreach Slots",
           style: TextStyle(
             color: Colors.white,
@@ -234,7 +290,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
         child: BlocBuilder<OutreachCubit, OutreachState>(
           builder: (context, state) {
             if (state is OutreachLoaded) {
-              // print("state loded");
+              print("state loded");
               return Container(
                 color: appBarColor,
                 child: Container(
@@ -319,8 +375,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
             // }
             else if (state is OutreachFailure) {
               return Center(child: Text(state.error));
-            }
-            if (state is OutreachRejected) {
+            } else if (state is OutreachRejected) {
               // Navigator.pop(context);
               return Dialog(
                 shape: RoundedRectangleBorder(
@@ -328,7 +383,18 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                 ),
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                child: msgBox("Student Needs deleted"),
+                child: msgBox("Rejected"),
+              );
+              setState(() => outreachcubit!.slots = []);
+            } else if (state is OutreachAccepted) {
+              // Navigator.pop(context);
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: msgBox("Accepted"),
               );
               setState(() => outreachcubit!.slots = []);
             } else {
@@ -423,13 +489,24 @@ class _OutreachTileState extends State<outreachSlotTile> {
                             Expanded(
                               child: IconButton(
                                   onPressed: () {
+                                    outreachcubit!.acceptoutreach(user.token,
+                                        widget.outreachslots.slotId);
+                                    // setState(() {
+                                    // });
+                                  },
+                                  color: Colors.greenAccent,
+                                  icon: Icon(Icons.check)),
+                            ),
+                            Expanded(
+                              child: IconButton(
+                                  onPressed: () {
                                     outreachcubit!.rejectoutreach(user.token,
                                         widget.outreachslots.slotId);
                                     // setState(() {
                                     // });
                                   },
                                   color: Colors.greenAccent,
-                                  icon: Icon(Icons.delete)),
+                                  icon: Icon(Icons.close)),
                             ),
                           ],
                         ),
@@ -452,6 +529,17 @@ class _OutreachTileState extends State<outreachSlotTile> {
                             ),
                             Text(
                               "PES ID: " + widget.outreachslots.pes_id,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  // color: appStudentNeeds.read
+                                  //     ? Color.fromARGB(255, 107, 107, 107)
+                                  //     : Colors.white,
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                            Text(
+                              "status: " + widget.outreachslots.status,
                               style: TextStyle(
                                   color: Colors.grey,
                                   // color: appStudentNeeds.read

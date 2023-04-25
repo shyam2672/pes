@@ -18,13 +18,13 @@ class OutreachCubit extends Cubit<OutreachState> {
       mainRepo.hasNetwork().then((Bool) {
         if (!Bool)
           emit(OutreachFailure("No Internet"));
-     else {
+        else {
           mainRepo.getoutreachSlots(token).then((List resp) {
             if (resp[0] == true) {
               slots = resp[1];
               emit(OutreachLoaded());
             } else
-              emit(OutreachFailure( "Can't Load Slots"));
+              emit(OutreachFailure("Can't Load Slots"));
           });
         }
       });
@@ -38,9 +38,9 @@ class OutreachCubit extends Cubit<OutreachState> {
       if (!Bool)
         emit(OutreachFailure('No internet'));
       else {
-        mainRepo.delStudentNeeds(token, id).then((resp) {
+        mainRepo.rejectoutreachslot(token, id).then((resp) {
           print(resp);
-          if (resp == "rejected") {
+          if (resp == "Rejected") {
             print("fffff");
             emit(OutreachRejected());
           } else
@@ -57,9 +57,10 @@ class OutreachCubit extends Cubit<OutreachState> {
       if (!Bool)
         emit(OutreachFailure('No internet'));
       else {
-        mainRepo.delStudentNeeds(token, id).then((resp) {
+        mainRepo.acceptoutreachslot(token, id).then((resp) {
+          print("dsgdfhg hfghgh");
           print(resp);
-          if (resp == "accepted") {
+          if (resp == "Accepted") {
             print("fffff");
             emit(OutreachAccepted());
           } else
