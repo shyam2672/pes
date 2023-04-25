@@ -21,6 +21,7 @@ import 'package:pes_admin/admin_screens/syllabus_view.dart';
 import 'package:pes_admin/admin_screens/volunteer_slots_screen.dart';
 import 'package:pes_admin/admin_screens/outreach_slots_screen.dart';
 import 'package:pes_admin/admin_screens/student_needs.dart';
+import 'package:pes_admin/admin_screens/schools_screen.dart';
 
 import 'package:pes_admin/cubit/add_batch_cubit.dart';
 import 'package:pes_admin/cubit/add_slot_cubit.dart';
@@ -47,6 +48,7 @@ import 'package:pes_admin/cubit/syllabus_cubit.dart';
 import 'package:pes_admin/cubit/today_volunteer_cubit.dart';
 import 'package:pes_admin/cubit/volunteer_slots_cubit.dart';
 import 'package:pes_admin/cubit/outreach_cubit.dart';
+import 'package:pes_admin/cubit/schools_cubit.dart';
 
 import 'package:pes_admin/data/repositories/main_server_repository.dart';
 import 'package:pes_admin/constants/strings.dart';
@@ -82,6 +84,7 @@ class AppRouter {
   BatchDeleteCubit? batchDeleteCubit;
   StudentNeedsCubit? studentNeedsCubit;
   OutreachCubit? outreachCubit;
+  SchoolsCubit? schoolCubit;
   AppRouter() {
     mainRepo = MainRepository();
     loginCubit = LoginCubit(repository: mainRepo!);
@@ -104,6 +107,7 @@ class AppRouter {
     notificationsCubit = NotificationsCubit(mainRepo: mainRepo!);
     studentNeedsCubit = StudentNeedsCubit(mainRepo: mainRepo!);
     outreachCubit = OutreachCubit(mainRepo: mainRepo!);
+    schoolCubit = SchoolsCubit(mainRepo: mainRepo!);
 
     allBatchesCubit = AllBatchesCubit(mainRepo: mainRepo!);
     addBatchCubit = AddBatchCubit(mainRepository: mainRepo!);
@@ -147,6 +151,8 @@ class AppRouter {
           BlocProvider.value(value: batchCubit!),
           BlocProvider.value(value: batchEditCubit!),
           BlocProvider.value(value: batchDeleteCubit!),
+          BlocProvider.value(value: schoolCubit!),
+
         ],
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
@@ -297,7 +303,11 @@ class AppRouter {
       case NEEDS:
         return _blocProvidedRoute(settings, StudentNeedsScreen());
       case OUTREACH:
-        return _blocProvidedRoute(settings,OutreachSlotsScreen());
+        return _blocProvidedRoute(settings, OutreachSlotsScreen());
+      case ADDSCHOOL:
+        return _blocProvidedRoute(settings, SchoolsScreen());
+      // case ADDTOPIC:
+      //   return _blocProvidedRoute(settings, OutreachSlotsScreen());
       case NEEDS_DETAILS:
         Map args = settings.arguments as Map;
         return _blocProvidedRoute(

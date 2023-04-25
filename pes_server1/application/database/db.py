@@ -1174,6 +1174,22 @@ vs.pes_id = v.pes_id;"""
         args = [id]
         cursor.execute(cmd, args)
         return 1
+    
+    
+    @handle_error(-44)
+    def admin_schools(self):
+        cmd = 'select * from schools;'
+        cursor = self.connection.cursor()
+        cursor.execute(cmd)
+        outputParams = ['n_id', 'school']
+        tuples = cursor.fetchall()
+        result = []
+        for i in tuples:
+            dic = {}
+            for j in range(len(outputParams)):
+                dic[outputParams[j]] = str(i[j])
+            result.append(dic)
+        return result
 
     @handle_error(-44)
     def admin_outreach(self):

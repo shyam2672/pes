@@ -17,7 +17,7 @@ class SchoolsCubit extends Cubit<SchoolState> {
       emit(SchoolLoading());
       mainRepo.hasNetwork().then((Bool) {
         if (!Bool)
-          emit(SchoolsFailure("No Internet"));
+          emit(SchoolFailure("No Internet"));
         else {
           mainRepo.getSchools(token).then((List resp) {
             if (resp[0] == true) {

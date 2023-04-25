@@ -7,4 +7,4 @@ with app.app_context():
 
 if __name__ == "__main__":
     print('Started Server')
-    app.run(host='172.30.8.213', port=5002)
+    app.run(host='172.30.8.213', port=5005)

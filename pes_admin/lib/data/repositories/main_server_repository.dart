@@ -10,6 +10,8 @@ import 'package:pes_admin/data/models/slots.dart';
 import 'package:pes_admin/data/models/volunteer.dart';
 import 'package:pes_admin/data/models/volunteer_attendance.dart';
 import 'package:pes_admin/data/models/outreachslot.dart';
+import 'package:pes_admin/data/models/school.dart';
+
 
 
 import '../models/studentNeeds.dart';
@@ -335,10 +337,10 @@ class MainRepository {
     }
   }
 
-  Future<List> getoutreachSlots(token) async {
-    print("outreach Slots");
+  Future<List> getSchools(token) async {
+    print("outreach schools");
     try {
-      String url = baseUrl + "admin/getoutreachslots/";
+      String url = baseUrl + "admin/getschools/";
       final response = await http.post(
         Uri.parse(url),
         headers: {
@@ -349,11 +351,11 @@ class MainRepository {
       print(response.statusCode);
       print(jsonDecode(response.body));
       if (((response.statusCode / 100).floor() == 2)) {
-        List<outreachSlot> outreachSlots = [];
-        for (Map i in jsonDecode(response.body)["outreach"])
-          outreachSlots.add(outreachSlot.fromJson(i));
+        List<School> schools = [];
+        for (Map i in jsonDecode(response.body)["schools"])
+          schools.add(School.fromJson(i));
 
-        return [true, outreachSlots];
+        return [true, schools];
       } else
         return [false];
     } catch (e) {

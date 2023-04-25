@@ -73,5 +73,8 @@ insert into student_needs values(1,'9876543213','1110','Shyam','2','2016-06-22 1
 
 insert into volunteer_outreach_slots values('1110',default,'school1','Science','description','2022-01-01','11:00','12:00','pending','remarks' );
 
+insert into schools values(default,'school1' );
+
+
 
 

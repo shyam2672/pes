@@ -232,6 +232,7 @@ def init_app():
     app.add_url_rule('/admin/getoutreachslots/', view_func=outreach_management.admin_getoutreach, methods = ['POST'])
     app.add_url_rule('/admin/outreach/reject', view_func=outreach_management.admin_reject, methods = ['POST'])
     app.add_url_rule('/admin/outreach/accept', view_func=outreach_management.admin_accept, methods = ['POST'])
+    app.add_url_rule('/admin/getschools/', view_func=outreach_management.admin_getschools, methods = ['POST'])
 
 
     return app

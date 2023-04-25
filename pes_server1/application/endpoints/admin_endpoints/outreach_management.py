@@ -82,7 +82,35 @@ def admin_school_add(adminId):
         }
         return make_response(jsonify(responseObject)), 400
 
+@admin_auth
+def admin_getschools(adminId):
+    try:
+        retVal = current_app.config['db'].admin_schools()
+        if(retVal == -44):
+            responseObject = {
+                'status': 'failed',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(jsonify(responseObject)), 400
+        else:
 
+            responseObject = {
+                'status': 'success',
+                'message': 'all schools',
+                'schools': retVal 
+            }
+            return make_response(jsonify(responseObject)), 200
+
+    except Exception as e:
+        print(e)
+        responseObject = {
+            'status': 'fail',
+            'message': 'Some error occurred. Please try again.'
+        }
+        return make_response(jsonify(responseObject)), 401
+    
+    
+    
 @admin_auth
 def admin_school_delete(adminId):
     try:
