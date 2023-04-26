@@ -72,8 +72,8 @@ SchoolsCubit? schoolcubit;
 User user = User.empty(token: "");
 
 class _SchholsScreenState extends State<SchoolsScreen> {
-  TextEditingController _title = TextEditingController();
-  TextEditingController _description = TextEditingController();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _address = TextEditingController();
 
   RefreshController _pageRefreshController =
           RefreshController(initialRefresh: false),
@@ -96,29 +96,29 @@ class _SchholsScreenState extends State<SchoolsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Send Student Needs",
+            "Add a school",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           // Spacer(flex: 2),
           Text(
-            "Title",
+            "Name",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
           RemarksField(
-            feedback: _title,
+            feedback: _name,
             minLines: 1,
             maxLines: 1,
           ),
           SizedBox(height: 20),
           // Spacer(),
           Text(
-            "Description",
+            "Address",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
           RemarksField(
-            feedback: _description,
+            feedback: _address,
             minLines: 3,
             maxLines: 3,
           ),
@@ -130,12 +130,12 @@ class _SchholsScreenState extends State<SchoolsScreen> {
                 flex: 2,
                 child: InkWell(
                   onTap: () {
-                    // outreachSlot!.addStudentNeeds(
-                    //     user.token, user.name, _title.text, _description.text);
-                    // Navigator.pop(context);
-                    // setState(() {
-                    //   studentNeedsCubit!.studentNeeds = [];
-                    // });
+                    schoolcubit!.addSchool(
+                        user.token,  _name.text, _address.text);
+                    Navigator.pop(context);
+                    setState(() {
+                      schoolcubit!.schools = [];
+                    });
                   },
                   child: Container(
                     height: 40,
@@ -217,6 +217,15 @@ class _SchholsScreenState extends State<SchoolsScreen> {
     );
   }
 
+  Widget _addicon() {
+    return Container(
+        width: 25,
+        padding: EdgeInsets.only(top: 13),
+        // color: Colors.black12,
+        child: Stack(children: [
+          Icon(Icons.add_box),
+        ]));
+  }
   @override
   Widget build(BuildContext context) {
     user = BlocProvider.of<LoginCubit>(context).user;
@@ -227,6 +236,18 @@ class _SchholsScreenState extends State<SchoolsScreen> {
       // drawer: SideDrawer(),
       appBar: AppBar(
         //  actions: [topbar()],
+          //  actions: [InkWell(
+          //   child: _addicon(),
+          //   onTap: () {
+          //     Navigator.pushNamed(context, ADDSCHOOLSCREEN);
+          //   },
+          // ),
+          // SizedBox(
+          //   width: 20,
+          // ),
+          //  ],
+
+           
             elevation: 0,
         // centerTitle: true,
         title: const Text(
@@ -239,7 +260,39 @@ class _SchholsScreenState extends State<SchoolsScreen> {
             fontWeight: FontWeight.w700,
           ),
         ),
+
+                
+                            
         backgroundColor: appBarColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: InkWell(
+        onTap: () {
+          _showAttendanceDialog(context);
+          print("Button tapped");
+        },
+        child: Container(
+          height: 50,
+          width: 50,
+          // width: MediaQuery.of(context).size.width * 0.70,
+          margin: EdgeInsets.all(10),
+          //padding: EdgeInsets.fromLTRB(20, 2, 20, 2),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color.fromARGB(255, 245, 72, 72),
+            //borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromARGB(255, 245, 72, 72),
+              width: 1,
+            ),
+          ),
+          child: Center(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ), //Text("Edit ",style: const TextStyle(color: Colors.white,fontFamily: "Roboto",fontSize: 17),)
+          ),
+        ),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       // floatingActionButton: InkWell(
@@ -354,25 +407,26 @@ class _SchholsScreenState extends State<SchoolsScreen> {
                 ),
               );
             }
-            // else if (state is Outre) {
-            //   return Dialog(
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(5),
-            //     ),
-            //     elevation: 0,
-            //     backgroundColor: Colors.transparent,
-            //     child: msgBox("Student Needs sent"),
-            //   );
-            // } else if (state is StudentNeedsNotAdded) {
-            //   return Dialog(
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(5),
-            //     ),
-            //     elevation: 0,
-            //     backgroundColor: Colors.transparent,
-            //     child: msgBox("Student Needs could not be sent"),
-            //   );
-            // // }
+            else if (state is SchoolDeleted) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: msgBox("School Deleted"),
+              );
+            } 
+            else if (state is SchoolAdded) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                child: msgBox("New School Added"),
+              );
+            }
             // else if (state is OutreachFailure) {
             //   return Center(child: Text(state.error));
             // } else if (state is OutreachRejected) {
@@ -421,18 +475,18 @@ class _SchoolTileState extends State<SchoolTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        //appStudentNeeds.read = true;
-        Navigator.pushNamed(
-          context,
-          OUTREACH,
-          arguments: {
-            "outreachObj": widget.schools
-            // "timeRecieved":
-            // _studentNeedsInterval(widget.outreachslots.post_time)
-          },
-        );
-      },
+      // onTap: () {
+      //   //appStudentNeeds.read = true;
+      //   Navigator.pushNamed(
+      //     context,
+      //     OUTREACH,
+      //     arguments: {
+      //       "outreachObj": widget.schools
+      //       // "timeRecieved":
+      //       // _studentNeedsInterval(widget.outreachslots.post_time)
+      //     },
+      //   );
+      // },
       child: Container(
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -487,27 +541,17 @@ class _SchoolTileState extends State<SchoolTile> {
                                   fontSize: 23,
                                   overflow: TextOverflow.ellipsis),
                             ),
+                         
                             Expanded(
                               child: IconButton(
                                   onPressed: () {
-                                  //   schoolcubit!.acceptoutreach(user.token,
-                                  //       widget.outreachslots.slotId);
-                                  //   // setState(() {
-                                    // });
+                                    schoolcubit!.deleteSchool(user.token,
+                                        widget.schools.n_id);
+                                    setState(() {
+                                    });
                                   },
                                   color: Colors.greenAccent,
-                                  icon: Icon(Icons.check)),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                  onPressed: () {
-                                    // outreachcubit!.rejectoutreach(user.token,
-                                        // widget.outreachslots.slotId);
-                                    // setState(() {
-                                    // });
-                                  },
-                                  color: Colors.greenAccent,
-                                  icon: Icon(Icons.close)),
+                                  icon: Icon(Icons.delete)),
                             ),
                           ],
                         ),
@@ -528,17 +572,17 @@ class _SchoolTileState extends State<SchoolTile> {
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis),
                             ),
-                            // Text(
-                            //   "PES ID: " + widget.outreachslots.pes_id,
-                            //   style: TextStyle(
-                            //       color: Colors.grey,
-                            //       // color: appStudentNeeds.read
-                            //       //     ? Color.fromARGB(255, 107, 107, 107)
-                            //       //     : Colors.white,
-                            //       // fontWeight: FontWeight.bold,
-                            //       fontSize: 15,
-                            //       overflow: TextOverflow.ellipsis),
-                            // ),
+                            Text(
+                              "ADDRESS: " + widget.schools.address,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  // color: appStudentNeeds.read
+                                  //     ? Color.fromARGB(255, 107, 107, 107)
+                                  //     : Colors.white,
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                             // Text(
                             //   "status: " + widget.outreachslots.status,
                             //   style: TextStyle(

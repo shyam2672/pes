@@ -27,34 +27,48 @@ def admin_topic_add(adminId):
         }
         return make_response(jsonify(responseObject)), 400
 
-
 @admin_auth
-def admin_topic_delete(adminId):
+def admin_gettopics(adminId):
     try:
-        data = request.get_json()
-        delete_slot_return, succ_fail = current_app.config['db'].delete_topic(data['id'])
-        if delete_slot_return == -44:
+        retVal = current_app.config['db'].admin_topics()
+        if(retVal == -44):
             responseObject = {
                 'status': 'failed',
-                'message': 'Some error occurred. Please try again'
+                'message': 'Some error occurred. Please try again.'
             }
-            return make_response(jsonify(responseObject)), 401
+            return make_response(jsonify(responseObject)), 400
         else:
+
             responseObject = {
                 'status': 'success',
-                'message': 'topic has been deleted',
-                'successful_deletion': succ_fail[1],
-                'failed_deletion': succ_fail[0]
+                'message': 'all topics',
+                'topics': retVal 
             }
-            current_app.config["scheduler"].refresh_slot_jobs()
-            return make_response(jsonify(responseObject)), 201
+            return make_response(jsonify(responseObject)), 200
     except Exception as e:
         print(e)
         responseObject = {
             'status': 'fail',
             'message': 'Some error occurred. Please try again.'
         }
-        return make_response(jsonify(responseObject)), 401 
+        return make_response(jsonify(responseObject)), 401
+
+@admin_auth
+def admin_topic_delete(adminId):
+    data = request.get_json()
+    slots = current_app.config['db'].delete_topic(data['id'])
+    if(slots == -44):
+        responseObject = {
+            'status': 'failed',
+            'message': 'Invalid Token',
+        }
+        return make_response(jsonify(responseObject)), 400
+    else:
+        retObj = {}
+        retObj['status'] = 'success'
+        retObj['message'] = 'topic rejected'
+        
+        return make_response(jsonify(retObj)), 201 
 
 @admin_auth
 def admin_school_add(adminId):
@@ -70,7 +84,7 @@ def admin_school_add(adminId):
         else:
             responseObject = {
                 'status': 'success',
-                'message': 'school has been added'
+                'message': 'added'
             }
             current_app.config["scheduler"].refresh_slot_jobs()
             return make_response(jsonify(responseObject)), 201
@@ -113,31 +127,20 @@ def admin_getschools(adminId):
     
 @admin_auth
 def admin_school_delete(adminId):
-    try:
-        data = request.get_json()
-        delete_slot_return, succ_fail = current_app.config['db'].delete_school(data['id'])
-        if delete_slot_return == -44:
-            responseObject = {
-                'status': 'failed',
-                'message': 'Some error occurred. Please try again'
-            }
-            return make_response(jsonify(responseObject)), 401
-        else:
-            responseObject = {
-                'status': 'success',
-                'message': 'school has been deleted',
-                'successful_deletion': succ_fail[1],
-                'failed_deletion': succ_fail[0]
-            }
-            current_app.config["scheduler"].refresh_slot_jobs()
-            return make_response(jsonify(responseObject)), 201
-    except Exception as e:
-        print(e)
+    data = request.get_json()
+    slots = current_app.config['db'].delete_school(data['id'])
+    if(slots == -44):
         responseObject = {
-            'status': 'fail',
-            'message': 'Some error occurred. Please try again.'
+            'status': 'failed',
+            'message': 'Invalid Token',
         }
-        return make_response(jsonify(responseObject)), 401
+        return make_response(jsonify(responseObject)), 400
+    else:
+        retObj = {}
+        retObj['status'] = 'success'
+        retObj['message'] = 'topic rejected'
+        
+        return make_response(jsonify(retObj)), 201
 
 @admin_auth
 def admin_getoutreach(adminId):
@@ -190,6 +193,7 @@ def admin_reject(adminId):
 @admin_auth
 def admin_accept(adminId):
     data = request.get_json()
+    print(data)
     slots = current_app.config['db'].admin_accept_outreach(data['id'])
     if(slots == -44):
         responseObject = {

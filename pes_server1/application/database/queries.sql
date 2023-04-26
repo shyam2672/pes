@@ -112,12 +112,14 @@ create table student_needs(
 
 create table outreach_topics(
     n_id serial primary key,
-    topic text not null
+    title text not null,
+    description text
 );
 
 create table schools(
         n_id serial primary key,
-    school text 
+    school text ,
+    address text
 );
 
 create table outreach_slots(

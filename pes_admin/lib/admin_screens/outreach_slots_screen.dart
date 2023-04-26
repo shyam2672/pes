@@ -549,17 +549,7 @@ class _OutreachTileState extends State<outreachSlotTile> {
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis),
                             ),
-                            // Text(
-                            //   "NAME: " + widget.outreachslots.Name,
-                            //   style: TextStyle(
-                            //       color: Colors.grey,
-                            //       // color: appStudentNeeds.read
-                            //       //     ? Color.fromARGB(255, 107, 107, 107)
-                            //       //     : Colors.white,
-                            //       // fontWeight: FontWeight.bold,
-                            //       fontSize: 15,
-                            //       overflow: TextOverflow.ellipsis),
-                            // ),
+                            
                           ],
                         ),
                         Container(
@@ -578,6 +568,20 @@ class _OutreachTileState extends State<outreachSlotTile> {
                             fontSize: 13,
                           ),
                         ),
+                         Container(
+                          height: 5,
+                        ),
+                        Text(
+                              "TOPIC: " + widget.outreachslots.topic,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  // color: appStudentNeeds.read
+                                  //     ? Color.fromARGB(255, 107, 107, 107)
+                                  //     : Colors.white,
+                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                       ],
                     ),
                   )),

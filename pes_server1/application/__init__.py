@@ -233,6 +233,11 @@ def init_app():
     app.add_url_rule('/admin/outreach/reject', view_func=outreach_management.admin_reject, methods = ['POST'])
     app.add_url_rule('/admin/outreach/accept', view_func=outreach_management.admin_accept, methods = ['POST'])
     app.add_url_rule('/admin/getschools/', view_func=outreach_management.admin_getschools, methods = ['POST'])
-
+    app.add_url_rule('/admin/deleteschool/', view_func=outreach_management.admin_school_delete, methods = ['POST'])
+    app.add_url_rule('/admin/addschool/', view_func=outreach_management.admin_school_add, methods = ['POST'])
+    app.add_url_rule('/admin/gettopics/', view_func=outreach_management.admin_gettopics, methods = ['POST'])
+    app.add_url_rule('/admin/deletetopic/', view_func=outreach_management.admin_topic_delete, methods = ['POST'])
+    app.add_url_rule('/admin/addtopic/', view_func=outreach_management.admin_topic_add, methods = ['POST'])
+    
 
     return app

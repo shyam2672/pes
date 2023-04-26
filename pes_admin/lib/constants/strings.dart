@@ -50,8 +50,11 @@ const NEEDS_DETAILS = "/student_needs/details";
 
 const OUTREACH = "/outreach";
 
-const ADDSCHOOL = "/addschool";
+const ADDSCHOOL = "/school";
 
-const ADDTOPIC = "/addtopic";
+const ADDTOPIC = "/topic";
+
+const ADDSCHOOLSCREEN = "/addschool";
+
 
 

@@ -1135,9 +1135,10 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def add_topic(self, data):
-
-        args = [AsIs('outreach_topics'), str(data['topics']), ]
-        cmd = "INSERT INTO %s values (DEFAULT, %s);"
+        print(data)
+        print("fkdfnds")
+        args = [AsIs('outreach_topics'), str(data['title']),str(data['description']) ]
+        cmd = "INSERT INTO %s values (DEFAULT, %s,%s);"
         try:
             cursor = self.connection.cursor()
             cursor.execute(cmd, args)
@@ -1156,9 +1157,9 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def add_school(self, data):
-
-        args = [AsIs('schools'), str(data['school']), ]
-        cmd = "INSERT INTO %s values (DEFAULT, %s);"
+        print(data)
+        args = [AsIs('schools'), str(data['school']),str(data['address']) ]
+        cmd = "INSERT INTO %s values (DEFAULT, %s,%s);"
         try:
             cursor = self.connection.cursor()
             cursor.execute(cmd, args)
@@ -1169,19 +1170,18 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def delete_school(self, id):
+        print(id)
         cmd = 'delete from schools where n_id=%s;'
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)
         return 1
-    
-    
     @handle_error(-44)
-    def admin_schools(self):
-        cmd = 'select * from schools;'
+    def admin_topics(self):
+        cmd = 'select * from outreach_topics;'
         cursor = self.connection.cursor()
         cursor.execute(cmd)
-        outputParams = ['n_id', 'school']
+        outputParams = ['n_id', 'title','description']
         tuples = cursor.fetchall()
         result = []
         for i in tuples:
@@ -1190,7 +1190,23 @@ vs.pes_id = v.pes_id;"""
                 dic[outputParams[j]] = str(i[j])
             result.append(dic)
         return result
-
+    
+    @handle_error(-44)
+    def admin_schools(self):
+        cmd = 'select * from schools;'
+        cursor = self.connection.cursor()
+        cursor.execute(cmd)
+        outputParams = ['n_id', 'school','address']
+        tuples = cursor.fetchall()
+        result = []
+        for i in tuples:
+            dic = {}
+            for j in range(len(outputParams)):
+                dic[outputParams[j]] = str(i[j])
+            result.append(dic)
+        return result
+    
+   
     @handle_error(-44)
     def admin_outreach(self):
         cmd = 'select * from volunteer_outreach_slots order by Date;'
@@ -1217,7 +1233,8 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def admin_accept_outreach(self, id):
-        cmd = "update  volunteer_outreach_slots set status='approved' where slot_id=%d ;"
+        print(id)
+        cmd = "update  volunteer_outreach_slots set status='approved' where slot_id=%s ;"
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)

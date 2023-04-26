@@ -31,24 +31,43 @@ class SchoolsCubit extends Cubit<SchoolState> {
     }
   }
 
-  // void rejectSchools(token, id) {
-  //   print("ff");
-  //   emit(OutreachLoading());
-  //   mainRepo.hasNetwork().then((Bool) {
-  //     if (!Bool)
-  //       emit(OutreachFailure('No internet'));
-  //     else {
-  //       mainRepo.rejectoutreachslot(token, id).then((resp) {
-  //         print(resp);
-  //         if (resp == "Rejected") {
-  //           print("fffff");
-  //           emit(OutreachRejected());
-  //         } else
-  //           emit(OutreachNotRejected());
-  //       });
-  //     }
-  //   });
-  // }
+  void deleteSchool(token, id) {
+    print("ff");
+    emit(SchoolLoading());
+    mainRepo.hasNetwork().then((Bool) {
+      if (!Bool)
+        emit(SchoolFailure('No internet'));
+      else {
+        mainRepo.delete_school(token, id).then((resp) {
+          print(resp);
+          if (resp == "Deleted") {
+            print("fffff");
+            emit(SchoolDeleted());
+          } else
+            emit(SchoolNotDeleted());
+        });
+      }
+    });
+  }
+
+  void addSchool(token, name,address) {
+    print("ff");
+    emit(SchoolLoading());
+    mainRepo.hasNetwork().then((Bool) {
+      if (!Bool)
+        emit(SchoolFailure('No internet'));
+      else {
+        mainRepo.add_school(token, name,address).then((resp) {
+          print(resp);
+          if (resp == "Added") {
+            print("fffff");
+            emit(SchoolAdded());
+          } else
+            emit(SchoolNotAdded());
+        });
+      }
+    });
+  }
 
   // void acceptoutreach(token, id) {
   //   print("ff");

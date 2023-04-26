@@ -11,6 +11,7 @@ import 'package:pes_admin/data/models/volunteer.dart';
 import 'package:pes_admin/data/models/volunteer_attendance.dart';
 import 'package:pes_admin/data/models/outreachslot.dart';
 import 'package:pes_admin/data/models/school.dart';
+import 'package:pes_admin/data/models/topic.dart';
 
 
 
@@ -361,6 +362,149 @@ class MainRepository {
     } catch (e) {
       print(e);
       return [false];
+    }
+  }
+Future<String> add_school(token, name, address) async {
+    try {
+      String url = baseUrl + "admin/addschool/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "school": name,
+            "address": address,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Added";
+      } else
+        return "Not Added";
+    } catch (e) {
+      print(e);
+      return "Not Added";
+    }
+  }
+
+  Future<String> delete_school(token, id) async {
+    print("delete school" );
+    print(token);
+    print(id);
+
+    try {
+      String url = baseUrl + "admin/deleteschool/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Deleted";
+      } else
+        return "Not Deleted";
+    } catch (e) {
+      print(e);
+      return "Not Deleted";
+    }
+  }
+
+  Future<List> getTopics(token) async {
+    print("outreach topics");
+    try {
+      String url = baseUrl + "admin/gettopics/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<Topic> topics = [];
+        for (Map i in jsonDecode(response.body)["topics"])
+          topics.add(Topic.fromJson(i));
+
+        return [true, topics];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+Future<String> add_topic(token, title, description) async {
+    try {
+      String url = baseUrl + "admin/addtopic/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "title": title,
+            "description": description
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Added";
+      } else
+        return "Not Added";
+    } catch (e) {
+      print(e);
+      return "Not Added";
+    }
+  }
+
+  Future<String> delete_topic(token, id) async {
+    print("delete topic" );
+    print(token);
+    print(id);
+
+    try {
+      String url = baseUrl + "admin/deletetopic/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          {
+            "id": id,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        return "Deleted";
+      } else
+        return "Not Deleted";
+    } catch (e) {
+      print(e);
+      return "Not Deleted";
     }
   }
 

@@ -8,6 +8,9 @@ class SchoolInitial extends SchoolState {}
 class SchoolLoading extends SchoolState {}
 
 class SchoolLoaded extends SchoolState {}
+class SchoolAdded extends SchoolState {}
+class SchoolNotAdded extends SchoolState {}
+
 class SchoolDeleted extends SchoolState {}
 
 class SchoolNotDeleted extends SchoolState {}
