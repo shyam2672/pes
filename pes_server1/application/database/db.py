@@ -946,7 +946,7 @@ vs.pes_id = v.pes_id;"""
         cursor = self.connection.cursor()
         cursor.execute(cmd)
         outputParams = ['id', 'data', 'pes_id',
-                        'name', 'pathshaala', 'post_time']
+                         'pathshaala', 'post_time']
         tuples = cursor.fetchall()
         result = []
         for i in tuples:
@@ -976,7 +976,7 @@ vs.pes_id = v.pes_id;"""
     def admin_add_student_needs(self, pathshaala, data, Name, adminId):
         cmd = "insert into %s values(DEFAULT, %s, %s, %s, %s);"
         cursor = self.connection.cursor()
-        args = [AsIs('student_needs'), data, adminId, Name, pathshaala, str(datetime.now(
+        args = [AsIs('student_needs'), data, adminId,  pathshaala, str(datetime.now(
             timezone('Asia/Kolkata')).strftime("%m-%d-%Y, %H:%M:%S"))]
         cursor.execute(cmd, args)
         return 1
@@ -997,7 +997,7 @@ vs.pes_id = v.pes_id;"""
         args = [pathshaala]
         cursor.execute(cmd, args)
         outputParams = ['id', 'data', 'pes_id',
-                        'name', 'pathshaala', 'post_time']
+                        'pathshaala', 'post_time']
         tuples = cursor.fetchall()
         result = []
         for i in tuples:
@@ -1012,7 +1012,7 @@ vs.pes_id = v.pes_id;"""
         pathshaala = self.getPathshaala(pes_id)
         cmd = "insert into %s values(DEFAULT, %s, %s,%s, %s, %s);"
         cursor = self.connection.cursor()
-        args = [AsIs('student_needs'), data, pes_id, name, pathshaala, str(datetime.now(
+        args = [AsIs('student_needs'), data, pes_id,  pathshaala, str(datetime.now(
             timezone('Asia/Kolkata')).strftime("%m-%d-%Y, %H:%M:%S"))]
         cursor.execute(cmd, args)
         return 1
@@ -1238,4 +1238,41 @@ vs.pes_id = v.pes_id;"""
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)
+        return 1
+    
+    @handle_error(-44)
+    def volunteer_outreach(self,pesId):
+        cmd = 'select * from volunteer_outreach_slots where pes_id=%s order by Date;'
+        cursor = self.connection.cursor()
+        args = [pesId]
+        
+        cursor.execute(cmd,args)
+        outputParams = ['pes_id', 'slot_id', 'school', 'topic', 'description',
+                        'date', 'time_start', 'time_end', 'status', 'remarks']
+        tuples = cursor.fetchall()
+        result = []
+        for i in tuples:
+            dic = {}
+            for j in range(len(outputParams)):
+                dic[outputParams[j]] = str(i[j])
+            result.append(dic)
+        return result
+    
+    @handle_error(-44)
+    def admin_add_outreach(self, pathshaala, data, Name, adminId):
+        cmd = "insert into %s values(DEFAULT, %s, %s, %s, %s);"
+        cursor = self.connection.cursor()
+        args = [AsIs('student_needs'), data, adminId,  pathshaala, str(datetime.now(
+            timezone('Asia/Kolkata')).strftime("%m-%d-%Y, %H:%M:%S"))]
+        cursor.execute(cmd, args)
+        return 1
+    
+    
+    @handle_error(-44)
+    def addoutreach(self,pesId, data):
+        cmd = "INSERT INTO volunteer_outreach_slots VALUES (%s,DEFAULT, %s, %s,%s,%s,%s,%s,%s,%s);"
+        args = [pesId,str(data['school']),str(data['topic']),str(data['description']),str(data['date']),str(data['time_start']),str(data['time_end']),'pending',str(data['remarks'])]
+        
+        cursor = self.connection.cursor()
+        cursor.execute(cmd,args)
         return 1

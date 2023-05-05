@@ -9,11 +9,12 @@ import 'package:pes/data/models/slots.dart';
 import 'package:pes/data/models/studentNeeds.dart';
 import 'package:pes/data/models/user.dart';
 import 'package:pes/data/models/user_profile.dart';
+import 'package:pes/data/models/outreachslot.dart';
 
 import '../models/notification.dart';
 
 class MainRepository {
-  final baseUrl = "http://172.30.8.213:5002/";
+  final baseUrl = "http://172.30.8.213:5016/";
   // final baseUrl = 'http://20.231.8.139/';
   // final baseUrl = "http://10.0.2.2:5000/";
   // final baseUrl = "http://pesserver.azurewebsites.net/";
@@ -409,6 +410,63 @@ class MainRepository {
         ? jsonDecode(response.body)['new_notifications']
         : false;
   }
+
+//outreach
+
+  Future<List> getoutreachSlots(token) async {
+    print("outreach Slots");
+    try {
+      String url = baseUrl + "getoutreachslots/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<outreachSlot> outreachSlots = [];
+        for (Map i in jsonDecode(response.body)["outreach"])
+          outreachSlots.add(outreachSlot.fromJson(i));
+
+        return [true, outreachSlots];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+
+  Future<String> addoutreach(String token, String school,String topic,String description,String date,String timestart,String timeend,String remarks) async {
+    print("Add outreach screen");
+    try {
+      final response =
+          await http.post(Uri.parse(baseUrl + "outreach/add/"),
+              headers: {
+                "Authorization": token,
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode({"school":school,
+              "topic":topic,
+              "description":description,
+              "date":date,
+              "time_start":timestart,
+              "time_end":timeend,
+              "remarks":remarks, }));
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2))
+        return "Added successfully";
+      else
+        return jsonDecode(response.body)['message'];
+    } catch (e) {
+      print(e);
+      return e.toString();
+    }
+  }
+
 }
 
 class SlotResponse {

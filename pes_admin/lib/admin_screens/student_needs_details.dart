@@ -63,14 +63,7 @@ class StudentNeedsDetails extends StatelessWidget {
                     fontSize: 25,
                     color: Colors.white),
               ),
-                Text(
-                "NAME: " + appStudentNeeds.Name,
-                softWrap: true,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.white),
-              ),
+           
               // Spacer(),
               Container(
                 height: 15,

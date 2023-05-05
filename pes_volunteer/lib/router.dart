@@ -16,6 +16,10 @@ import 'package:pes/cubit/registration_cubit.dart';
 import 'package:pes/cubit/slot_change_cubit.dart';
 import 'package:pes/cubit/slots_cubit.dart';
 import 'package:pes/cubit/syllabus_cubit.dart';
+import 'package:pes/cubit/outreach_slots_cubit.dart';
+import 'package:pes/cubit/outreach_added_cubit.dart';
+
+
 import 'package:pes/data/repositories/main_server_repository.dart';
 import 'package:pes/volunteer_screen/all_slots_screen.dart';
 import 'package:pes/volunteer_screen/home.dart';
@@ -29,6 +33,8 @@ import 'package:pes/volunteer_screen/splash_screen.dart';
 import 'package:pes/volunteer_screen/students_needs.dart';
 import 'package:pes/volunteer_screen/students_needs_details.dart';
 import 'package:pes/volunteer_screen/syllabus_view.dart';
+import 'package:pes/volunteer_screen/outreach_slots_screen.dart';
+
 
 class AppRouter {
   LoginCubit? loginCubit;
@@ -45,6 +51,10 @@ class AppRouter {
   NotificationsCubit? notificationsCubit;
   NewNotificationCubit? newNotificationCubit;
   StudentNeedsCubit? studentNeedsCubit;
+  OutreachCubit? outreachCubit;
+  AddOutreachCubit? addOutreachCubit;
+
+
 
   AppRouter() {
     mainRepo = MainRepository();
@@ -56,11 +66,15 @@ class AppRouter {
     attendanceCubit = AttendanceCubit(mainRepo: mainRepo!);
     leavePehchaanCubit = LeavePehchaanCubit(mainRepo: mainRepo!);
     addStudentNeedsCubit = AddStudentNeedsCubit(mainRepo: mainRepo!);
+   addOutreachCubit = AddOutreachCubit(mainRepo: mainRepo!);
+
     slotChangeCubit = SlotChangeCubit(mainRepo: mainRepo!);
     allSlotsCubit = AllSlotsCubit(mainRepo: mainRepo!);
     notificationsCubit = NotificationsCubit(mainRepository: mainRepo!);
     studentNeedsCubit = StudentNeedsCubit(mainRepository: mainRepo!);
     newNotificationCubit = NewNotificationCubit(mainRepository: mainRepo!);
+    outreachCubit = OutreachCubit(mainRepo: mainRepo!);
+
   }
   _blocProvidedRoute(settings, Widget child) {
     return MaterialPageRoute(
@@ -84,6 +98,10 @@ class AppRouter {
           BlocProvider.value(value: allSlotsCubit!),
           BlocProvider.value(value: notificationsCubit!),
           BlocProvider.value(value: studentNeedsCubit!),
+          BlocProvider.value(value: outreachCubit!),
+          BlocProvider.value(value: addOutreachCubit!),
+
+
           BlocProvider.value(value: newNotificationCubit!),
         ],
         child: BlocListener<LoginCubit, LoginState>(
@@ -189,6 +207,9 @@ class AppRouter {
 
       case NEEDS:
         return _blocProvidedRoute(settings, StudentNeedsScreen());
+
+        case OUTREACH:
+        return _blocProvidedRoute(settings, OutreachSlotsScreen());
 
       case NEEDS_DETAIL:
         Map args = settings.arguments as Map;

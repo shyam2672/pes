@@ -457,17 +457,7 @@ class _StudentNeedsTileState extends State<StudentNeedsTile> {
                                   fontSize: 15,
                                   overflow: TextOverflow.ellipsis),
                             ),
-                            Text(
-                              "NAME: " + widget.appStudentNeeds.Name,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  // color: appStudentNeeds.read
-                                  //     ? Color.fromARGB(255, 107, 107, 107)
-                                  //     : Colors.white,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
+                         
                           ],
                         ),
                         Container(

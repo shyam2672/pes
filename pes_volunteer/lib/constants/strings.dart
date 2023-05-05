@@ -24,5 +24,7 @@ const NEEDS_DETAIL = "/needs/details";
 
 const OUTREACH_DETAIL = "/outreach/details";
 
+const OUTREACH = "/outreach";
+
 
 const appBarColor = Color.fromARGB(255, 0, 0, 0);

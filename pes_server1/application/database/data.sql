@@ -19,6 +19,10 @@ insert into Volunteers(PES_ID,Password,Name,Phone,profession,Email,Pathshaala,St
     values(1113, 'pwd2','Prashant','9876543210','PG','2020csb1113@iitrpr.ac.in',2,'Active','Satluj Hostel, IIT Ropar','2022-01-01');
 
 
+insert into Volunteers(PES_ID,Password,Name,Phone,profession,Email,Pathshaala,Status,address,joining_date) 
+    values(1064, 'pwd2','Aditi','9876543210','PG','2020csb1064@iitrpr.ac.in',2,'Active','Raavi Hostel, IIT Ropar','2022-01-01');
+
+
 insert into Syllabus values(1,'https://drive.google.com/u/0/uc?id=1-26GBpGF_B1QmqUAZcOi8b4CwDTaqrXL&export=download','1 to 3');
 insert into Syllabus values(2,'https://drive.google.com/u/0/uc?id=1-26GBpGF_B1QmqUAZcOi8b4CwDTaqrXL&export=download','4 and 5');
 insert into Syllabus values(3,'https://drive.google.com/u/0/uc?id=1-26GBpGF_B1QmqUAZcOi8b4CwDTaqrXL&export=download','6 to 8');
@@ -56,6 +60,8 @@ insert into admins values('1235','ew');
 insert into admins values('12345','ew');
 insert into admins values('1110','ew');
 insert into admins values('1113','ew');
+insert into admins values('1064','ew');
+
 
 insert into slots(slot_id,pathshaala,batch,day,time_start,time_end) values(default,2,2,'SUNDAY','13:00','15:00');
 insert into volunteer_slots values('1235',12);
