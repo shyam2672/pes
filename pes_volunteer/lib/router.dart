@@ -208,7 +208,7 @@ class AppRouter {
       case NEEDS:
         return _blocProvidedRoute(settings, StudentNeedsScreen());
 
-        case OUTREACH:
+      case OUTREACH:
         return _blocProvidedRoute(settings, OutreachSlotsScreen());
 
       case NEEDS_DETAIL:

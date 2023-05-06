@@ -945,7 +945,7 @@ vs.pes_id = v.pes_id;"""
         cmd = 'select * from student_needs order by pathshaala, post_time desc;'
         cursor = self.connection.cursor()
         cursor.execute(cmd)
-        outputParams = ['id', 'data', 'pes_id',
+        outputParams = ['id', 'data', 'pes_id','name',
                          'pathshaala', 'post_time']
         tuples = cursor.fetchall()
         result = []
@@ -996,7 +996,7 @@ vs.pes_id = v.pes_id;"""
         cursor = self.connection.cursor()
         args = [pathshaala]
         cursor.execute(cmd, args)
-        outputParams = ['id', 'data', 'pes_id',
+        outputParams = ['id', 'data', 'pes_id','name',
                         'pathshaala', 'post_time']
         tuples = cursor.fetchall()
         result = []
@@ -1008,11 +1008,11 @@ vs.pes_id = v.pes_id;"""
         return result
 
     @handle_error(-44)
-    def add_student_needs(self, data, pes_id, Name):
+    def add_student_needs(self, data, pes_id, name):
         pathshaala = self.getPathshaala(pes_id)
-        cmd = "insert into %s values(DEFAULT, %s, %s,%s, %s, %s);"
+        cmd = "insert into %s values(DEFAULT, %s, %s,%s,%s, %s, %s);"
         cursor = self.connection.cursor()
-        args = [AsIs('student_needs'), data, pes_id,  pathshaala, str(datetime.now(
+        args = [AsIs('student_needs'), data, pes_id,name,  pathshaala, str(datetime.now(
             timezone('Asia/Kolkata')).strftime("%m-%d-%Y, %H:%M:%S"))]
         cursor.execute(cmd, args)
         return 1

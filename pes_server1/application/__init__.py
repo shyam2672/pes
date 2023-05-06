@@ -167,6 +167,8 @@ def init_app():
     from application.endpoints import outreach_management_volunteer
     app.add_url_rule('/getoutreachslots/', view_func=outreach_management_volunteer.volunteer_getoutreach, methods = ['POST'])
     app.add_url_rule('/outreach/add/', view_func=outreach_management_volunteer.volunteer_addoutreach, methods = ['POST'])
+    app.add_url_rule('/getschools/', view_func=outreach_management_volunteer.volunteer_getschools, methods = ['POST'])
+    app.add_url_rule('/gettopics/', view_func=outreach_management_volunteer.volunteer_gettopics, methods = ['POST'])
 
 
 

@@ -75,9 +75,13 @@ OutreachCubit? outreachcubit;
 
 class _OutreachScreenState extends State<OutreachSlotsScreen> {
 // AddOutreachCubit? addOutreachCubit;
-  TextEditingController _topic = TextEditingController();
   TextEditingController _date = TextEditingController();
-  TextEditingController _school = TextEditingController();
+  String? _school;
+  String? _topic;
+  DateTime? _selectedDate;
+  bool _isslot1 = false;
+  bool _isslot2 = false;
+
   TextEditingController _remarks = TextEditingController();
   TextEditingController _timestart = TextEditingController();
   TextEditingController _timeend = TextEditingController();
@@ -86,6 +90,36 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
   RefreshController _pageRefreshController =
           RefreshController(initialRefresh: false),
       _listRefreshController = RefreshController(initialRefresh: false);
+
+  void _handleschool(String selectedItem) {
+    setState(() {
+      _school = selectedItem;
+    });
+    print('Selected item: $selectedItem');
+  }
+
+  void _handletopic(String selectedItem) {
+    _topic = selectedItem;
+
+    print('Selected item: $selectedItem');
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      //  datePickerMode: DatePickerMode.date,
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+        print("date");
+        print(_selectedDate);
+      });
+    }
+  }
 
   Widget _attendanceDialog(context) {
     // addOutreachCubit = BlocProvider.of<AddOutreachCubit>(context);
@@ -108,33 +142,32 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
         children: [
           Text(
             "Add a slot",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
           ),
+          SizedBox(height: 20),
 
           Text(
-            "School",
+            "Select a School",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
-          SizedBox(height: 5),
-          RemarksField(
-            feedback: _school,
-            minLines: 1,
-            maxLines: 1,
+
+          MyWidget(
+            items: outreachcubit!.schools,
+            onItemSelected: _handleschool,
+          ),
+          SizedBox(height: 20),
+          Text(
+            "Select a topic",
+            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+          ),
+          MyWidget(
+            items: outreachcubit!.topics,
+            onItemSelected: _handletopic,
           ),
           SizedBox(height: 20),
 
           // Spacer(flex: 2),
-          Text(
-            "Topic",
-            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
-          ),
-          SizedBox(height: 5),
-          RemarksField(
-            feedback: _topic,
-            minLines: 1,
-            maxLines: 1,
-          ),
-          SizedBox(height: 20),
+
           // Spacer(),
           Text(
             "Description",
@@ -148,19 +181,22 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
           ),
           SizedBox(height: 5),
 
-          Text(
-            "Date",
-            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+          Column(
+            children: <Widget>[
+              // Text(_selectedDate == null
+              //     ? 'No date selected'
+              //     : 'Selected date: ${_selectedDate!.toString()}'),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: Text('Select a date'),
+              ),
+            ],
           ),
-          SizedBox(height: 5),
-          RemarksField(
-            feedback: _date,
-            minLines: 1,
-            maxLines: 1,
-          ),
+
           SizedBox(height: 20),
+
           Text(
-            "time start",
+            "time start (example format 11:00:00)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -171,7 +207,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            "time end",
+            "time end (example format 11:00:00)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -192,6 +228,8 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
             maxLines: 1,
           ),
           // Spacer(),
+          SizedBox(height: 20),
+
           Row(
             children: [
               Spacer(),
@@ -201,8 +239,8 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                   onTap: () {
                     outreachcubit!.addOutreach(
                         user.token,
-                        _school.text,
-                        _topic.text,
+                        _school,
+                        _topic,
                         _description.text,
                         _date.text,
                         _timestart.text,
@@ -311,6 +349,11 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
     outreachcubit = BlocProvider.of<OutreachCubit>(context);
 
     outreachcubit!.loadoutreachslots(user.token);
+    outreachcubit!.loadoutreachschools(user.token);
+    outreachcubit!.loadoutreachtopics(user.token);
+
+    print(outreachcubit!.schools);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // drawer: SideDrawer(),
@@ -814,4 +857,41 @@ class RemarksField extends StatelessWidget {
     );
   }
 }
-// }
+
+class MyWidget extends StatefulWidget {
+  final List<String> items;
+  final Function(String) onItemSelected;
+
+  const MyWidget({Key? key, required this.items, required this.onItemSelected})
+      : super(key: key);
+
+  @override
+  _MyWidgetState createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  String? _selectedItem;
+
+  @override
+  Widget build(BuildContext context) {
+    print(widget.items);
+
+    return DropdownButton<String>(
+      value: _selectedItem,
+      items: widget.items
+          .map(
+            (item) => DropdownMenuItem<String>(
+              value: item,
+              child: Text(item),
+            ),
+          )
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          _selectedItem = value;
+          widget.onItemSelected(value!);
+        });
+      },
+    );
+  }
+}

@@ -1,6 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:pes/data/models/outreachslot.dart';
+import 'package:pes/data/models/school.dart';
+import 'package:pes/data/models/topic.dart';
+
+
 import 'package:pes/data/repositories/main_server_repository.dart';
 
 part 'outreach_slots_state.dart';
@@ -8,6 +12,11 @@ part 'outreach_slots_state.dart';
 class OutreachCubit extends Cubit<OutreachState> {
   OutreachCubit({required this.mainRepo}) : super(OutreachInitial());
   List<outreachSlot> slots = [];
+  List<String> schools = [];
+  List<String> topics = [];
+
+  
+
 
   final MainRepository mainRepo;
 
@@ -22,6 +31,46 @@ class OutreachCubit extends Cubit<OutreachState> {
           mainRepo.getoutreachSlots(token).then((List resp) {
             if (resp[0] == true) {
               slots = resp[1];
+              emit(OutreachLoaded());
+            } else
+              emit(OutreachFailure("Can't Load Slots"));
+          });
+        }
+      });
+    }
+  }
+
+ void loadoutreachschools(String token) {
+    print(schools);
+    if (schools.isEmpty) {
+      emit(OutreachLoading());
+      mainRepo.hasNetwork().then((Bool) {
+        if (!Bool)
+          emit(OutreachFailure("No Internet"));
+        else {
+          mainRepo.getoutreachSchools(token).then((List resp) {
+            if (resp[0] == true) {
+              schools = resp[1];
+              emit(OutreachLoaded());
+            } else
+              emit(OutreachFailure("Can't Load Slots"));
+          });
+        }
+      });
+    }
+  }
+
+   void loadoutreachtopics(String token) {
+    print(topics);
+    if (topics.isEmpty) {
+      emit(OutreachLoading());
+      mainRepo.hasNetwork().then((Bool) {
+        if (!Bool)
+          emit(OutreachFailure("No Internet"));
+        else {
+          mainRepo.getoutreachTopics(token).then((List resp) {
+            if (resp[0] == true) {
+              topics = resp[1];
               emit(OutreachLoaded());
             } else
               emit(OutreachFailure("Can't Load Slots"));

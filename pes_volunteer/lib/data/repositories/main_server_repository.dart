@@ -10,6 +10,10 @@ import 'package:pes/data/models/studentNeeds.dart';
 import 'package:pes/data/models/user.dart';
 import 'package:pes/data/models/user_profile.dart';
 import 'package:pes/data/models/outreachslot.dart';
+import 'package:pes/data/models/school.dart';
+import 'package:pes/data/models/topic.dart';
+
+
 
 import '../models/notification.dart';
 
@@ -466,6 +470,61 @@ class MainRepository {
       return e.toString();
     }
   }
+
+  Future<List> getoutreachSchools(token) async {
+    print("outreach schools");
+    try {
+      String url = baseUrl + "getschools/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<String> schools = [];
+        for (Map i in jsonDecode(response.body)["schools"])
+          schools.add(School.fromJson(i).schoolname);
+
+        return [true, schools];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+
+  Future<List> getoutreachTopics(token) async {
+    print("outreach topics");
+    try {
+      String url = baseUrl + "gettopics/";
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Authorization": token,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+      if (((response.statusCode / 100).floor() == 2)) {
+        List<String> topics = [];
+        for (Map i in jsonDecode(response.body)["topics"])
+          topics.add(Topic.fromJson(i).topicname);
+
+        return [true, topics];
+      } else
+        return [false];
+    } catch (e) {
+      print(e);
+      return [false];
+    }
+  }
+  
 
 }
 

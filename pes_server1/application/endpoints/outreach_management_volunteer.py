@@ -62,6 +62,64 @@ def volunteer_addoutreach(pesId):
             'message': 'Some error occurred. Please try again.'
         }
         return make_response(jsonify(responseObject)), 401
+    
+    
+    
+@requires_auth
+def volunteer_getschools(pesId):
+    try:
+        retVal = current_app.config['db'].admin_schools()
+        if(retVal == -44):
+            responseObject = {
+                'status': 'failed',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(jsonify(responseObject)), 400
+        else:
+
+            responseObject = {
+                'status': 'success',
+                'message': 'all schools',
+                'schools': retVal 
+            }
+            return make_response(jsonify(responseObject)), 200
+
+    except Exception as e:
+        print(e)
+        responseObject = {
+            'status': 'fail',
+            'message': 'Some error occurred. Please try again.'
+        }
+        return make_response(jsonify(responseObject)), 401
+    
+    
+@requires_auth
+def volunteer_gettopics(pesId):
+    try:
+        retVal = current_app.config['db'].admin_topics()
+        if(retVal == -44):
+            responseObject = {
+                'status': 'failed',
+                'message': 'Some error occurred. Please try again.'
+            }
+            return make_response(jsonify(responseObject)), 400
+        else:
+
+            responseObject = {
+                'status': 'success',
+                'message': 'all topics',
+                'topics': retVal 
+            }
+            return make_response(jsonify(responseObject)), 200
+    except Exception as e:
+        print(e)
+        responseObject = {
+            'status': 'fail',
+            'message': 'Some error occurred. Please try again.'
+        }
+        return make_response(jsonify(responseObject)), 401
+
+    
 
 
 
