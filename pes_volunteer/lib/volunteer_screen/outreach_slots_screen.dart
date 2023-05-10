@@ -75,7 +75,8 @@ OutreachCubit? outreachcubit;
 
 class _OutreachScreenState extends State<OutreachSlotsScreen> {
 // AddOutreachCubit? addOutreachCubit;
-  TextEditingController _date = TextEditingController();
+  // TextEditingController _date = TextEditingController();
+  String? _date;
   String? _school;
   String? _topic;
   DateTime? _selectedDate;
@@ -117,6 +118,12 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
         _selectedDate = picked;
         print("date");
         print(_selectedDate);
+        _date = picked.year.toString() +
+            "-" +
+            picked.month.toString() +
+            "-" +
+            picked.day.toString();
+        print(_date);
       });
     }
   }
@@ -196,7 +203,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
           SizedBox(height: 20),
 
           Text(
-            "time start (example format 11:00:00)",
+            "time start (example format 11:00)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -207,7 +214,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            "time end (example format 11:00:00)",
+            "time end (example format 11:00)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -242,7 +249,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                         _school,
                         _topic,
                         _description.text,
-                        _date.text,
+                        _date,
                         _timestart.text,
                         _timeend.text,
                         _remarks.text);
@@ -748,9 +755,24 @@ class _OutreachTileState extends State<outreachSlotTile> {
                           height: 5,
                         ),
                         Text(
-                          widget.outreachslots.timeStart +
+                          "Date: " + widget.outreachslots.date,
+                          style: TextStyle(
+                              color: Colors.grey,
+                              // color: appStudentNeeds.read
+                              //     ? Color.fromARGB(255, 107, 107, 107)
+                              //     : Colors.white,
+                              // fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              overflow: TextOverflow.ellipsis),
+                        ),
+                        Container(
+                          height: 5,
+                        ),
+                        Text(
+                          widget.outreachslots.timeStart.substring(0,widget.outreachslots.timeStart.length-3) +
                               "-" +
-                              widget.outreachslots.timeEnd,
+                          widget.outreachslots.timeEnd.substring(0,widget.outreachslots.timeEnd.length-3) ,
+
                           style: TextStyle(
                             color: Colors.grey,
                             // color: widget.appStudentNeeds.read

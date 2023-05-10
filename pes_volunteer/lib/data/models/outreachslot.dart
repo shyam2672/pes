@@ -6,7 +6,7 @@ class outreachSlot {
       : date = json["date"].toString(),
         description = json["description"] ?? json["description"].toString(),
         slotId = json["slot_id"].toString(),
-        timeEnd = json["time_end"],
+        timeEnd = json["time_end"].toString(),
         timeStart = json["time_start"],
         school = (json['school'] ?? "").toString(),
         topic = (json['topic'] ?? "").toString(),
