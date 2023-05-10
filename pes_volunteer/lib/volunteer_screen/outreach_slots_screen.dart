@@ -148,47 +148,65 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Add a slot",
+            "Add a Slot",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 20),
-
-          Text(
-            "Select a School",
-            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+          SizedBox(height: 5),
+          Divider(
+            thickness: 1,
+            color: Colors.black,
           ),
 
-          MyWidget(
-            items: outreachcubit!.schools,
-            onItemSelected: _handleschool,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // Text(
+              //   "Select a School",
+              //   style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+              // ),
+              MyWidget(
+                f: "school",
+                items: outreachcubit!.schools,
+                onItemSelected: _handleschool,
+              ),
+            ],
           ),
+
           SizedBox(height: 20),
-          Text(
-            "Select a topic",
-            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              // Text(
+              //   "Select a topic",
+              //   style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+              // ),
+              MyWidget(
+                f: "topic",
+                items: outreachcubit!.topics,
+                onItemSelected: _handletopic,
+              ),
+            ],
           ),
-          MyWidget(
-            items: outreachcubit!.topics,
-            onItemSelected: _handletopic,
-          ),
+
           SizedBox(height: 20),
 
           // Spacer(flex: 2),
 
           // Spacer(),
-          Text(
-            "Description",
-            style: TextStyle(fontSize: 22, color: Color(0xff164476)),
-          ),
-          SizedBox(height: 5),
-          RemarksField(
-            feedback: _description,
-            minLines: 3,
-            maxLines: 3,
-          ),
-          SizedBox(height: 5),
+          // Text(
+          //   "Description",
+          //   style: TextStyle(fontSize: 22, color: Color(0xff164476)),
+          // ),
+          // SizedBox(height: 5),
+          // RemarksField(
+          //   feedback: _description,
+          //   minLines: 3,
+          //   maxLines: 3,
+          // ),
+          // SizedBox(height: 5),
 
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // Text(_selectedDate == null
               //     ? 'No date selected'
@@ -197,13 +215,17 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                 onPressed: () => _selectDate(context),
                 child: Text('Select a date'),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              //   child: DateWidget("")
+              // )
             ],
           ),
 
           SizedBox(height: 20),
 
           Text(
-            "time start (example format 11:00)",
+            "Start Time (HH:MM)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -214,7 +236,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            "time end (example format 11:00)",
+            "End Time (HH:MM)",
             style: TextStyle(fontSize: 22, color: Color(0xff164476)),
           ),
           SizedBox(height: 5),
@@ -278,6 +300,7 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                   ),
                 ),
               ),
+              Spacer(),
             ],
           ),
           // Spacer(),
@@ -379,35 +402,36 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
         ),
         backgroundColor: appBarColor,
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      // floatingActionButton: InkWell(
-      //   onTap: () {
-      //     _showAttendanceDialog(context);
-      //     print("Button tapped");
-      //   },
-      //   child: Container(
-      //     height: 50,
-      //     width: 50,
-      //     // width: MediaQuery.of(context).size.width * 0.70,
-      //     margin: EdgeInsets.all(10),
-      //     //padding: EdgeInsets.fromLTRB(20, 2, 20, 2),
-      //     decoration: BoxDecoration(
-      //       shape: BoxShape.circle,
-      //       color: Color.fromARGB(255, 245, 72, 72),
-      //       //borderRadius: BorderRadius.circular(18),
-      //       border: Border.all(
-      //         color: Color.fromARGB(255, 245, 72, 72),
-      //         width: 1,
-      //       ),
-      //     ),
-      //     child: Center(
-      //       child: Icon(
-      //         Icons.add,
-      //         color: Colors.white,
-      //       ), //Text("Edit ",style: const TextStyle(color: Colors.white,fontFamily: "Roboto",fontSize: 17),)
-      //     ),
-      //   ),
-      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: InkWell(
+        onTap: () {
+          _showAttendanceDialog(context);
+          setState(() {});
+          print("Button tapped");
+        },
+        child: Container(
+          height: 50,
+          width: 50,
+          // width: MediaQuery.of(context).size.width * 0.70,
+          margin: EdgeInsets.all(10),
+          //padding: EdgeInsets.fromLTRB(20, 2, 20, 2),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color.fromARGB(255, 245, 72, 72),
+            //borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromARGB(255, 245, 72, 72),
+              width: 1,
+            ),
+          ),
+          child: Center(
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ), //Text("Edit ",style: const TextStyle(color: Colors.white,fontFamily: "Roboto",fontSize: 17),)
+          ),
+        ),
+      ),
 
       body: SmartRefresher(
         enablePullDown: true,
@@ -447,57 +471,57 @@ class _OutreachScreenState extends State<OutreachSlotsScreen> {
                       //   height: 20,
                       // ),
                       // BlocConsumer<AddOutreachCubit, AddOutreachState>(
-                      InkWell(
-                          child: Container(
-                            width: 200,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Color.fromARGB(255, 247, 57, 215),
-                                Color.fromARGB(255, 247, 98, 57)
-                              ]),
-                              // color: const Color(0xff274D76),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: Color.fromARGB(255, 247, 57, 215),
-                                width: 1,
-                              ),
-                            ),
-                            child: const Center(
-                                child: Text(
-                              "Add Outreach Slot",
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white),
-                            )),
-                          ),
-                          onTap: () =>
-                              {_showAttendanceDialog(context), setState(() {})}
+                      // InkWell(
+                      //     child: Container(
+                      //       width: 200,
+                      //       height: 40,
+                      //       decoration: BoxDecoration(
+                      //         gradient: LinearGradient(colors: [
+                      //           Color.fromARGB(255, 247, 57, 215),
+                      //           Color.fromARGB(255, 247, 98, 57)
+                      //         ]),
+                      //         // color: const Color(0xff274D76),
+                      //         borderRadius: BorderRadius.circular(20),
+                      //         border: Border.all(
+                      //           color: Color.fromARGB(255, 247, 57, 215),
+                      //           width: 1,
+                      //         ),
+                      //       ),
+                      //       child: const Center(
+                      //           child: Text(
+                      //         "Add Outreach Slot",
+                      //         style:
+                      //             TextStyle(fontSize: 15, color: Colors.white),
+                      //       )),
+                      //     ),
+                      //     onTap: () =>
+                      //         {_showAttendanceDialog(context), setState(() {})}
 
-                          //   if (state is AddOutreachApplied) {
-                          //     _showBottomNotification(
-                          //         context, "Outreach Slot Added");
-                          //     Timer(Duration(seconds: 3), () {
-                          //       Navigator.pop(context);
-                          //       Navigator.pop(context);
-                          //       // Navigator.popUntil(
-                          //       //     context, (route) => !route.hasActiveRouteBelow);
-                          //       //setState(() => slotsCubit!.slots = []);
-                          //     });
-                          //   } else if (state is AddOutreachNotApplied) {
-                          //     _showBottomNotification(context, state.message);
-                          //     Timer(Duration(seconds: 3), () {
-                          //       Navigator.pop(context);
-                          //       Navigator.pop(context);
-                          //       // Navigator.popUntil(
-                          //       //     context, (route) => !route.hasActiveRouteBelow);
-                          //       //setState(() => slotsCubit!.slots = []);
-                          //     });
-                          //   } else {
-                          //     _showBottomNotification(
-                          //         context, "Adding Outreach Slot");
-                          //   }
-                          // }
-                          ),
+                      //     //   if (state is AddOutreachApplied) {
+                      //     //     _showBottomNotification(
+                      //     //         context, "Outreach Slot Added");
+                      //     //     Timer(Duration(seconds: 3), () {
+                      //     //       Navigator.pop(context);
+                      //     //       Navigator.pop(context);
+                      //     //       // Navigator.popUntil(
+                      //     //       //     context, (route) => !route.hasActiveRouteBelow);
+                      //     //       //setState(() => slotsCubit!.slots = []);
+                      //     //     });
+                      //     //   } else if (state is AddOutreachNotApplied) {
+                      //     //     _showBottomNotification(context, state.message);
+                      //     //     Timer(Duration(seconds: 3), () {
+                      //     //       Navigator.pop(context);
+                      //     //       Navigator.pop(context);
+                      //     //       // Navigator.popUntil(
+                      //     //       //     context, (route) => !route.hasActiveRouteBelow);
+                      //     //       //setState(() => slotsCubit!.slots = []);
+                      //     //     });
+                      //     //   } else {
+                      //     //     _showBottomNotification(
+                      //     //         context, "Adding Outreach Slot");
+                      //     //   }
+                      //     // }
+                      //     ),
 
                       Divider(),
                       Expanded(
@@ -619,192 +643,179 @@ class outreachSlotTile extends StatefulWidget {
 class _OutreachTileState extends State<outreachSlotTile> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        //appStudentNeeds.read = true;
-        Navigator.pushNamed(
-          context,
-          OUTREACH,
-          arguments: {
-            "outreachObj": widget.outreachslots
-            // "timeRecieved":
-            // _studentNeedsInterval(widget.outreachslots.post_time)
-          },
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        // color: const Color.fromRGBO(
-        //     223, 246, 255, .8), //Color.fromARGB(255, 218, 233, 250),
-        //const Color(0x00e5f1ff),
-        // const Color(0x00e5f1ff),
-        // : Color.fromARGB(4, 229, 241, 255),
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return Container(
-              decoration: BoxDecoration(
-                // color: Color.fromRGBO(223, 246, 255, .8).withOpacity(0.02),
-                // color: widget.appStudentNeeds.read
-                //     ? appBarColor.withOpacity(0.02)
-                //     : Color.fromRGBO(223, 246, 255, .8).withOpacity(0.02),
-                // color: appBarColor.withOpacity(0.02),
-                border: Border(
-                    bottom: BorderSide(
-                        color: Color.fromARGB(255, 245, 72, 72), width: 2)),
-                // border: Border.all(color: Colors.black),
-                // borderRadius: BorderRadius.all(Radius.circular((5)))
-              ),
-              height: 150,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  (Container(
-                    // padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    margin: const EdgeInsets.only(
-                        left: 10, right: 10, top: 5, bottom: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.outreachslots.description.length > 30
-                                  ? widget.outreachslots.description
-                                          .substring(0, 30) +
-                                      '...'
-                                  : widget.outreachslots.description,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  // color: appStudentNeeds.read
-                                  //     ? Color.fromARGB(255, 107, 107, 107)
-                                  //     : Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 23,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //       onPressed: () {
-                            //         outreachcubit!.acceptoutreach(user.token,
-                            //             widget.outreachslots.slotId);
-                            //         // setState(() {
-                            //         // });
-                            //       },
-                            //       color: Colors.greenAccent,
-                            //       icon: Icon(Icons.check)),
-                            // ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //       onPressed: () {
-                            //         outreachcubit!.rejectoutreach(user.token,
-                            //             widget.outreachslots.slotId);
-                            //         // setState(() {
-                            //         // });
-                            //       },
-                            //       color: Colors.greenAccent,
-                            //       icon: Icon(Icons.close)),
-                            // ),
-                          ],
-                        ),
-                        Container(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "School " + widget.outreachslots.school,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  // color: appStudentNeeds.read
-                                  //     ? Color.fromARGB(255, 107, 107, 107)
-                                  //     : Colors.white,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
-                            Text(
-                              "PES ID: " + widget.outreachslots.pes_id,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  // color: appStudentNeeds.read
-                                  //     ? Color.fromARGB(255, 107, 107, 107)
-                                  //     : Colors.white,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
-                            Text(
-                              "status: " + widget.outreachslots.status,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  // color: appStudentNeeds.read
-                                  //     ? Color.fromARGB(255, 107, 107, 107)
-                                  //     : Colors.white,
-                                  // fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  overflow: TextOverflow.ellipsis),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 5,
-                        ),
-                        Text(
-                          "Date: " + widget.outreachslots.date,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              // color: appStudentNeeds.read
-                              //     ? Color.fromARGB(255, 107, 107, 107)
-                              //     : Colors.white,
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        Container(
-                          height: 5,
-                        ),
-                        Text(
-                          widget.outreachslots.timeStart.substring(0,widget.outreachslots.timeStart.length-3) +
-                              "-" +
-                          widget.outreachslots.timeEnd.substring(0,widget.outreachslots.timeEnd.length-3) ,
-
-                          style: TextStyle(
-                            color: Colors.grey,
-                            // color: widget.appStudentNeeds.read
-                            //     ? Color.fromARGB(255, 150, 149, 149)
-                            //     : Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
+    return Container(
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+      // color: const Color.fromRGBO(
+      //     223, 246, 255, .8), //Color.fromARGB(255, 218, 233, 250),
+      //const Color(0x00e5f1ff),
+      // const Color(0x00e5f1ff),
+      // : Color.fromARGB(4, 229, 241, 255),
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Container(
+            decoration: BoxDecoration(
+              // color: Color.fromRGBO(223, 246, 255, .8).withOpacity(0.02),
+              // color: widget.appStudentNeeds.read
+              //     ? appBarColor.withOpacity(0.02)
+              //     : Color.fromRGBO(223, 246, 255, .8).withOpacity(0.02),
+              // color: appBarColor.withOpacity(0.02),
+              border: Border(
+                  bottom: BorderSide(
+                      color: Color.fromARGB(255, 245, 72, 72), width: 2)),
+              // border: Border.all(color: Colors.black),
+              // borderRadius: BorderRadius.all(Radius.circular((5)))
+            ),
+            height: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (Container(
+                  // padding: const EdgeInsets.only(top: 5, bottom: 5),
+                  margin: const EdgeInsets.only(
+                      left: 10, right: 10, top: 5, bottom: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.outreachslots.description.length > 30
+                                ? widget.outreachslots.description
+                                        .substring(0, 30) +
+                                    '...'
+                                : widget.outreachslots.description,
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: Colors.white,
+                                // color: appStudentNeeds.read
+                                //     ? Color.fromARGB(255, 107, 107, 107)
+                                //     : Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 23,
+                                overflow: TextOverflow.ellipsis),
                           ),
+                          // Expanded(
+                          //   child: IconButton(
+                          //       onPressed: () {
+                          //         outreachcubit!.acceptoutreach(user.token,
+                          //             widget.outreachslots.slotId);
+                          //         // setState(() {
+                          //         // });
+                          //       },
+                          //       color: Colors.greenAccent,
+                          //       icon: Icon(Icons.check)),
+                          // ),
+                          // Expanded(
+                          //   child: IconButton(
+                          //       onPressed: () {
+                          //         outreachcubit!.rejectoutreach(user.token,
+                          //             widget.outreachslots.slotId);
+                          //         // setState(() {
+                          //         // });
+                          //       },
+                          //       color: Colors.greenAccent,
+                          //       icon: Icon(Icons.close)),
+                          // ),
+                        ],
+                      ),
+                      Container(
+                        height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "School " + widget.outreachslots.school,
+                            style: TextStyle(
+                                color: Colors.grey,
+                                // color: appStudentNeeds.read
+                                //     ? Color.fromARGB(255, 107, 107, 107)
+                                //     : Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            "PES ID: " + widget.outreachslots.pes_id,
+                            style: TextStyle(
+                                color: Colors.grey,
+                                // color: appStudentNeeds.read
+                                //     ? Color.fromARGB(255, 107, 107, 107)
+                                //     : Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            "status: " + widget.outreachslots.status,
+                            style: TextStyle(
+                                color: Colors.grey,
+                                // color: appStudentNeeds.read
+                                //     ? Color.fromARGB(255, 107, 107, 107)
+                                //     : Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 5,
+                      ),
+                      Text(
+                        "Date: " + widget.outreachslots.date,
+                        style: TextStyle(
+                            color: Colors.grey,
+                            // color: appStudentNeeds.read
+                            //     ? Color.fromARGB(255, 107, 107, 107)
+                            //     : Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                      Container(
+                        height: 5,
+                      ),
+                      Text(
+                        widget.outreachslots.timeStart.substring(
+                                0, widget.outreachslots.timeStart.length - 3) +
+                            "-" +
+                            widget.outreachslots.timeEnd.substring(
+                                0, widget.outreachslots.timeEnd.length - 3),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          // color: widget.appStudentNeeds.read
+                          //     ? Color.fromARGB(255, 150, 149, 149)
+                          //     : Colors.white,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
                         ),
-                        Container(
-                          height: 5,
-                        ),
-                        Text(
-                          "TOPIC: " + widget.outreachslots.topic,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              // color: appStudentNeeds.read
-                              //     ? Color.fromARGB(255, 107, 107, 107)
-                              //     : Colors.white,
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
-                    ),
-                  )),
-                ],
-              ),
-            );
-          },
-        ), //
-      ),
+                      ),
+                      Container(
+                        height: 5,
+                      ),
+                      Text(
+                        "TOPIC: " + widget.outreachslots.topic,
+                        style: TextStyle(
+                            color: Colors.grey,
+                            // color: appStudentNeeds.read
+                            //     ? Color.fromARGB(255, 107, 107, 107)
+                            //     : Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    ],
+                  ),
+                )),
+              ],
+            ),
+          );
+        },
+      ), //
     );
   }
 }
@@ -881,10 +892,15 @@ class RemarksField extends StatelessWidget {
 }
 
 class MyWidget extends StatefulWidget {
+  final String f;
   final List<String> items;
   final Function(String) onItemSelected;
 
-  const MyWidget({Key? key, required this.items, required this.onItemSelected})
+  const MyWidget(
+      {Key? key,
+      required this.items,
+      required this.onItemSelected,
+      required this.f})
       : super(key: key);
 
   @override
@@ -896,9 +912,16 @@ class _MyWidgetState extends State<MyWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // if (widget.f == "school") {
+    //   _selectedItem = "Select a school";
+    // } else {
+    //   _selectedItem = "Select a topic";
+    // }
     print(widget.items);
 
     return DropdownButton<String>(
+      hint: (widget.f=="school")?Text("Select a School"):Text("Select a topic"),
+      // hint:Text("select a school"),
       value: _selectedItem,
       items: widget.items
           .map(
@@ -917,3 +940,33 @@ class _MyWidgetState extends State<MyWidget> {
     );
   }
 }
+
+// class DateWidget extends StatefulWidget {
+//   String currentDate;
+//   DateWidget({Key? key, required this.currentDate}) : super(key: key);
+//   @override
+//   _DateWidgetState createState() => _DateWidgetState();
+// }
+
+// class _DateWidgetState extends State<DateWidget> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     // _updateDate();
+//   }
+
+//   void _updateDate(String date) {
+//     setState(() {
+//       widget.currentDate = date;
+//       // _currentDate = formatter.format(now);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       widget.currentDate,
+//       style: TextStyle(fontSize: 20),
+//     );
+//   }
+// }
