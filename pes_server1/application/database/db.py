@@ -966,7 +966,7 @@ vs.pes_id = v.pes_id;"""
 
     @handle_error(-44)
     def del_volunteer_slots(self, id):
-        cmd = 'delete from volunteer_slots where slots_id=%s;'
+        cmd = 'delete from volunteer_slots where slot_id=%s;'
         cursor = self.connection.cursor()
         args = [id]
         cursor.execute(cmd, args)

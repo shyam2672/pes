@@ -56,5 +56,4 @@ const ADDTOPIC = "/topic";
 
 const ADDSCHOOLSCREEN = "/addschool";
 
-
-
+const ABOUTUS = "/aboutus";

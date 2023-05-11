@@ -26,5 +26,8 @@ const OUTREACH_DETAIL = "/outreach/details";
 
 const OUTREACH = "/outreach";
 
+const ABOUTUS = "/aboutus";
+
+
 
 const appBarColor = Color.fromARGB(255, 0, 0, 0);

@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ))
         .toList();
     int n = slotTiles.length;
-    bool ff=false;
+    bool ff = false;
     for (int i = 0; i < n; i++) {
       ff = false;
       ff = days.indexOf(slotTiles[i].slot.day) == DateTime.now().weekday;
@@ -269,6 +269,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     SizedBox(height: 10),
+                    Text(
+                      "Sunday-Saturday",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
                     Expanded(
                       flex: 30,
                       child: Container(
@@ -310,13 +315,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(fontSize: 20),
                               ));
                             } else if (state is SlotDeleted) {
+                              print("delete state");
                               return Dialog(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 elevation: 0,
                                 backgroundColor: Colors.transparent,
-                                child: msgBox("Slot delete request sent"),
+                                child: msgBox("Slot deleted"),
                               );
                             } else {
                               return Center(
@@ -348,7 +354,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget msgBox(msg) {
-    
     return Container(
       padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
       decoration: BoxDecoration(

@@ -270,6 +270,21 @@ class _SideDrawerState extends State<SideDrawer> {
               Navigator.pushNamed(context, NEEDS);
             },
           ),
+ ListTile(
+              leading: const Icon(Icons.info_outline, color: Colors.white),
+              title: const Text(
+                'About Us',
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamed(context, ABOUTUS);
+              },
+            ),
+
+
           // ListTile(
           //   leading: admin_dark_theme
           //       ? const Icon(

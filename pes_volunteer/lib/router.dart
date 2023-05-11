@@ -34,6 +34,8 @@ import 'package:pes/volunteer_screen/students_needs.dart';
 import 'package:pes/volunteer_screen/students_needs_details.dart';
 import 'package:pes/volunteer_screen/syllabus_view.dart';
 import 'package:pes/volunteer_screen/outreach_slots_screen.dart';
+import 'package:pes/volunteer_screen/about_us_screen.dart';
+
 
 
 class AppRouter {
@@ -210,6 +212,10 @@ class AppRouter {
 
       case OUTREACH:
         return _blocProvidedRoute(settings, OutreachSlotsScreen());
+
+        
+      case ABOUTUS:
+        return _blocProvidedRoute(settings, AboutUsScreen());
 
       case NEEDS_DETAIL:
         Map args = settings.arguments as Map;

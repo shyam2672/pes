@@ -23,6 +23,7 @@ import 'package:pes_admin/admin_screens/outreach_slots_screen.dart';
 import 'package:pes_admin/admin_screens/student_needs.dart';
 import 'package:pes_admin/admin_screens/schools_screen.dart';
 import 'package:pes_admin/admin_screens/topic_screen.dart';
+import 'package:pes_admin/admin_screens/about_us_screen.dart';
 
 import 'package:pes_admin/cubit/add_batch_cubit.dart';
 import 'package:pes_admin/cubit/add_slot_cubit.dart';
@@ -51,7 +52,6 @@ import 'package:pes_admin/cubit/volunteer_slots_cubit.dart';
 import 'package:pes_admin/cubit/outreach_cubit.dart';
 import 'package:pes_admin/cubit/schools_cubit.dart';
 import 'package:pes_admin/cubit/topic_cubit.dart';
-
 
 import 'package:pes_admin/data/repositories/main_server_repository.dart';
 import 'package:pes_admin/constants/strings.dart';
@@ -115,7 +115,6 @@ class AppRouter {
     schoolCubit = SchoolsCubit(mainRepo: mainRepo!);
     topicCubit = TopicCubit(mainRepo: mainRepo!);
 
-
     allBatchesCubit = AllBatchesCubit(mainRepo: mainRepo!);
     addBatchCubit = AddBatchCubit(mainRepository: mainRepo!);
     batchCubit = BatchCubit(mainRepo: mainRepo!);
@@ -160,8 +159,6 @@ class AppRouter {
           BlocProvider.value(value: batchDeleteCubit!),
           BlocProvider.value(value: schoolCubit!),
           BlocProvider.value(value: topicCubit!),
-
-
         ],
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
@@ -315,8 +312,10 @@ class AppRouter {
         return _blocProvidedRoute(settings, OutreachSlotsScreen());
       case ADDSCHOOL:
         return _blocProvidedRoute(settings, SchoolsScreen());
-        case ADDTOPIC:
+      case ADDTOPIC:
         return _blocProvidedRoute(settings, TopicScreen());
+      case ABOUTUS:
+        return _blocProvidedRoute(settings, AboutUsScreen());
       // case ADDTOPIC:
       //   return _blocProvidedRoute(settings, OutreachSlotsScreen());
       case NEEDS_DETAILS:

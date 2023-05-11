@@ -12,18 +12,45 @@ import 'package:pes/volunteer_screen/widgets/slot_button.dart';
 import 'package:pes/cubit/slots_cubit.dart';
 import 'package:pes/data/repositories/main_server_repository.dart';
 
-class SlotTile extends StatelessWidget {
+class SlotTile extends StatefulWidget {
   final Slot slot;
-  var istoday = false;
   final bool mySlot;
 
-  TextEditingController _remarks = TextEditingController();
-  User user = User.empty(token: "");
-  SlotsCubit? slotsCubit;
-  MainRepository mainrepo = MainRepository();
   SlotTile({Key? key, required this.slot, required this.mySlot})
       : super(key: key);
 
+  @override
+  State<SlotTile> createState() => _SlotTileState();
+}
+
+class _SlotTileState extends State<SlotTile> {
+  var istoday = false;
+  showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteConfirmationDialog(
+          onDeletePressed: () {
+            // Perform the delete operation
+            // ...
+            slotsCubit!.delstot(user.token, widget.slot.slotId);
+
+            // Navigator.of(context).pop(); // Close the dialog
+          },
+        );
+      },
+    );
+  }
+
+  TextEditingController _remarks = TextEditingController();
+
+  User user = User.empty(token: "");
+
+  SlotsCubit? slotsCubit;
+
+  MainRepository mainrepo = MainRepository();
+
+  // void onDeletePressed() {
   Widget collapsedTile(bool isCollapsed) {
     return Container(
       // width: 250,
@@ -48,7 +75,7 @@ class SlotTile extends StatelessWidget {
           Row(
             children: [
               Text(
-                slot.day,
+                widget.slot.day,
                 style: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 18,
@@ -57,7 +84,7 @@ class SlotTile extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              mySlot
+              widget.mySlot
                   ? !_slotDayisToday()
                       ? Expanded(
                           child: IconButton(
@@ -66,9 +93,11 @@ class SlotTile extends StatelessWidget {
                                 // user.token, widget.appStudentNeeds.id);
                                 // setState(() {
                                 // });
-                                slotsCubit!.delstot(user.token, slot.slotId);
-                                // setState(() {
-                                // });
+                                print("fff");
+                                showDeleteConfirmationDialog(context);
+
+                                // slotsCubit!.delstot(user.token, slot.slotId);
+                                // setState(() {});
                               },
                               color: Colors.red,
                               // padding: const EdgeInsets.fromLTRB(155, 0, 0, 0),
@@ -92,11 +121,13 @@ class SlotTile extends StatelessWidget {
           Row(
             children: [
               Spacer(),
-              TileHeading(heading: "PATHSHAALA", text: slot.pathshaala),
+              TileHeading(heading: "PATHSHAALA", text: widget.slot.pathshaala),
               Spacer(flex: 3),
+              //  TileHeading(heading: "DAte", text: widget.slot.),
+              // Spacer(flex: 3),
               TileHeading(
                   heading: "TIME",
-                  text: "${slot.timeStart} to ${slot.timeEnd}"),
+                  text: "${widget.slot.timeStart} to ${widget.slot.timeEnd}"),
               Spacer(),
             ],
           ),
@@ -139,17 +170,17 @@ class SlotTile extends StatelessWidget {
                 Row(
                   children: [
                     Spacer(),
-                    TileHeading(heading: "BATCH", text: slot.batch),
+                    TileHeading(heading: "BATCH", text: widget.slot.batch),
                     Spacer(),
                     TileHeading(
-                        heading: "BATCH CLASSES", text: slot.batchClass),
+                        heading: "BATCH CLASSES", text: widget.slot.batchClass),
                     Spacer(),
                   ],
                 ),
                 SizedBox(height: 10),
                 TileHeading(
                   heading: "THINGS TAUGHT IN LAST SESSION",
-                  text: slot.remarks,
+                  text: widget.slot.remarks,
                 ),
                 SizedBox(height: 10),
               ],
@@ -164,7 +195,9 @@ class SlotTile extends StatelessWidget {
   }
 
   SlotChangeCubit? slotChangeCubit;
+
   bool selected = false;
+
   @override
   Widget build(BuildContext context) {
     print("Home Refrehsed");
@@ -175,11 +208,11 @@ class SlotTile extends StatelessWidget {
 
     return BlocBuilder<SlotChangeCubit, SlotChangeState>(
       builder: (context, state) {
-        if (!mySlot && state is SlotSelectionActive) {
+        if (!widget.mySlot && state is SlotSelectionActive) {
           return Stack(
             children: [
               collapsedTile(true),
-              SlotCheckBox(slot: slot),
+              SlotCheckBox(slot: widget.slot),
             ],
           );
         } else {
@@ -204,21 +237,21 @@ class SlotTile extends StatelessWidget {
   }
 
   getcolor() {
-    if (mySlot && _slotDayisToday())
+    if (widget.mySlot && _slotDayisToday())
       return Colors.red;
     else
       return Color.fromARGB(255, 18, 18, 18);
   }
 
   _tileButtons(context) {
-    if (mySlot)
+    if (widget.mySlot)
       return Row(
         children: [
           Spacer(),
           SlotButton(
             onPressed: () {
               Navigator.pushNamed(context, SYLLABUS_SCREEN,
-                  arguments: {'batch': slot.batch});
+                  arguments: {'batch': widget.slot.batch});
             },
             text: "Syllabus",
           ),
@@ -241,7 +274,7 @@ class SlotTile extends StatelessWidget {
           SlotButton(
             onPressed: () {
               Navigator.pushNamed(context, SYLLABUS_SCREEN,
-                  arguments: {'batch': slot.batch});
+                  arguments: {'batch': widget.slot.batch});
             },
             text: "Syllabus",
           ),
@@ -271,6 +304,7 @@ class SlotTile extends StatelessWidget {
   }
 
   AttendanceCubit? attendanceCubit;
+
   Widget _attendanceDialog(context) {
     return Container(
       padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
@@ -308,9 +342,9 @@ class SlotTile extends StatelessWidget {
                 flex: 2,
                 child: InkWell(
                   onTap: () {
-                    _isSlotActive(slot);
-                    attendanceCubit!
-                        .markAttendance(user.token, slot.slotId, _remarks.text);
+                    _isSlotActive(widget.slot);
+                    attendanceCubit!.markAttendance(
+                        user.token, widget.slot.slotId, _remarks.text);
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -348,8 +382,9 @@ class SlotTile extends StatelessWidget {
     'FRIDAY',
     'SATURDAY'
   ];
+
   _slotDayisToday() {
-    if (days.indexOf(slot.day) == DateTime.now().weekday) istoday = true;
+    if (days.indexOf(widget.slot.day) == DateTime.now().weekday) istoday = true;
     return istoday;
   }
 }
@@ -496,6 +531,38 @@ class TileHeading extends StatelessWidget {
             ),
           ),
         )
+      ],
+    );
+  }
+}
+
+class DeleteConfirmationDialog extends StatelessWidget {
+  Function onDeletePressed;
+
+  DeleteConfirmationDialog({required this.onDeletePressed});
+  //  DeleteConfirmationDialog();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Delete Confirmation'),
+      content: Text('Are you sure you want to delete?'),
+      actions: <Widget>[
+        TextButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+        ),
+        TextButton(
+          child: Text('Delete'),
+          onPressed: () {
+            print("hello");
+
+            onDeletePressed();
+            Navigator.of(context).pop(); // Close the dialog
+          },
+        ),
       ],
     );
   }
